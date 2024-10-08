@@ -1,0 +1,143 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use App\Models\Food;
+use App\Models\FoodCategory;
+use App\Traits\ImageUpload;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class FoodController extends Controller
+{
+    use ImageUpload;
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $search = $request->query('query') ?? null;
+        $foodCat = $request->query('filter_by_category') ?? null;
+
+        $foodCategories = FoodCategory::all();
+
+        $foodItems = Food::query()
+            ->when($search, function ($query, $search) {
+                $query->search($search);
+            })
+            ->when($foodCat, function ($query, $foodCat) {
+                $query->where('category', $foodCat);
+            })
+            ->latest()
+            ->paginate(10);
+
+        $title = "Food Items List";
+
+
+        return view('backend.food.index',compact('foodItems','foodCategories','title'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $foodCategories = FoodCategory::all();
+        return view('backend.food.create',compact('foodCategories'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'thumb_image' => 'required|image|mimes:jpg,png,svg',
+            'name' => 'required',
+            'price' => 'required',
+            'category' => 'required',
+            'quantity' => 'required',
+            'status' => 'required',
+        ]);
+        if ($validator->fails()) {
+            notify()->error($validator->errors()->first(), 'Error');
+            return redirect()->back();
+        }
+
+        $input = $request->all();
+
+        $galleryImages = [];
+        if ($request->hasFile('galleries')) {
+            foreach ($request->file('galleries') as $image) {
+                $galleryImages[] = self::imageUploadTrait($image);
+            }
+        }
+
+        $images = !empty($galleryImages) ? $galleryImages : null;
+        $complimentaryItems = !empty($input['fields']) ? ($input['fields']) : null;
+
+        $data = [
+            'thumb_image' => self::imageUploadTrait($input['thumb_image']),
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'discount_price' => $input['discount_price'] == 0 ? null : $input['discount_price'],
+            'discount_validity' => $input['discount_validity'],
+            'category' => $input['category'],
+            'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
+            'quantity' => $input['quantity'],
+            'status' => $input['status'],
+            'overview' => $input['overview'],
+            'images' => $images,
+            'complimentary_items' => $complimentaryItems,
+        ];
+
+        Food::create($data);
+
+
+        notify()->success('Item created successfully');
+
+        return redirect()->route('admin.food-item.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $food_detail = Food::where('id', $id)->first();
+        $foodCategories = FoodCategory::all();
+//        dd($food_detail);
+        return view('backend.food.edit',compact('food_detail','foodCategories'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $foodItem = Food::find($id);
+
+        $foodItem->delete();
+
+        notify()->success('Item Deleted successfully');
+
+        return redirect()->back();
+    }
+}
