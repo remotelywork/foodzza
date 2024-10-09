@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class FoodCategory extends Model
 {
     use HasFactory;
-    protected $fillable =[
+    protected $fillable = [
         'name',
+        'icon',
+        'is_featured',
         'status',
     ];
 }

@@ -6,16 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\FoodCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\ImageUpload;
 
 class FoodCategoryController extends Controller
 {
+    use ImageUpload;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $categories = FoodCategory::all();
-        return view('backend.food_category.index',compact('categories'));
+        return view('backend.food_category.index', compact('categories'));
     }
 
     /**
@@ -33,6 +35,8 @@ class FoodCategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
+            'icon' => 'required',
+            'is_featured' => 'required',
             'status' => 'required',
         ]);
 
@@ -41,6 +45,13 @@ class FoodCategoryController extends Controller
 
             return redirect()->back();
         }
+
+        $input = $request->all();
+        $name = $input['name'];
+        $icon = self::imageUploadTrait($input['icon']);
+        $is_featured = $input['is_featured'];
+        $status = $input['status'];
+
         FoodCategory::create($request->all());
 
 

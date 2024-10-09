@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 @section('title')
-    {{ __('Add New Item') }}
+    {{ __('Edit Item') }}
 @endsection
 @section('style')
     <link rel="stylesheet" href="{{ asset('backend/css/choices.min.css') }}">
@@ -12,7 +12,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-8">
                         <div class="title-content">
-                            <h2 class="title">{{ __('Add New Food') }}</h2>
+                            <h2 class="title">{{ __('Edit Item') }}</h2>
                             <a href="{{ url()->previous() }}" class="title-btn"><i
                                         icon-name="corner-down-left"></i>{{ __('Back') }}</a>
                         </div>
@@ -26,15 +26,16 @@
                 <div class="col-xl-8">
                     <div class="site-card">
                         <div class="site-card-body">
-                            <form action="{{route('admin.food-item.update',$food_detail->id)}}" method="put" enctype="multipart/form-data" class="row">
+                            <form action="{{route('admin.food-item.update',$food_detail->id)}}" method="post" enctype="multipart/form-data" class="row">
                                 @csrf
+                                @method('PUT')
                                 <div class="col-xl-12">
                                     <div class="row">
                                         <div class="col-xl-3">
                                             <div class="site-input-groups">
                                                 <label class="box-input-label" for="">{{ __('Thumbnail Image:') }}</label>
                                                 <div class="wrap-custom-file">
-                                                    <input type="file" name="thumb_image" id="thumbImage" accept=".gif, .jpg, .png" required />
+                                                    <input type="file" name="thumb_image" value="{{ $food_detail->thumb_image }}" id="thumbImage" accept=".gif, .jpg, .png" />
                                                     <label for="thumbImage">
                                                         <img class="upload-icon" src="{{ asset($food_detail->thumb_image) }}" alt="" />
                                                         <span>{{ __('Upload Thumbnail') }}</span>
@@ -47,13 +48,13 @@
                                 <div class="col-xl-6 schema-name">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Name:') }}</label>
-                                        <input type="text" name="name" class="box-input" placeholder="{{ $food_detail->name }}" required />
+                                        <input type="text" name="name" class="box-input" value="{{ $food_detail->name }}" required />
                                     </div>
                                 </div>
                                 <div class="col-xl-6 schema-badge">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Price:') }}</label>
-                                        <input type="number" class="box-input" placeholder="{{ $food_detail->price }}" name="price" required />
+                                        <input type="number" class="box-input" value="{{ $food_detail->price }}" name="price" required />
                                     </div>
                                 </div>
 
@@ -62,7 +63,7 @@
                                         <div class="col-xl-12">
                                             <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
                                             <div class="position-relative">
-                                                <input type="number" class="box-input" placeholder="{{ $food_detail->discount_price }}"  name="discount_price"  />
+                                                <input type="number" class="box-input" value="{{ $food_detail->discount_price }}"  name="discount_price"  />
                                             </div>
                                         </div>
                                     </div>
@@ -95,7 +96,7 @@
                                         <label class="box-input-label"
                                                for="">{{ __('Delivery Cost:') }}</label>
                                         <div class="input-group joint-input">
-                                            <input type="text" placeholder="{{ $food_detail->shipping_cost }}" name="shipping_cost" class="form-control"/>
+                                            <input type="text" value="{{ $food_detail->shipping_cost }}" name="shipping_cost" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +106,7 @@
                                         <label class="box-input-label"
                                                for="">{{ __('Quantity:') }}</label>
                                         <div class="input-group joint-input">
-                                            <input type="number" placeholder="{{ $food_detail->quantity }}" name="quantity" class="form-control"/>
+                                            <input type="number" value="{{ $food_detail->quantity }}" name="quantity" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
@@ -162,7 +163,7 @@
                                        class="site-btn-xs primary-btn mb-3">{{ __('Add Gallery Image') }}</a>
                                 </div>
                                 <div class="addImages row">
-                                    @if(is_array($food_detail))
+                                    @if(is_array($food_detail['images']))
                                         @foreach($food_detail->images as $key => $image)
                                             <div class="col-xl-3 mb-4 existing-image">
                                                 <div class="site-input-groups image-remove-row">

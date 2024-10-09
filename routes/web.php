@@ -189,3 +189,8 @@ Route::get('notification-tune', [AppController::class, 'notificationTune'])->nam
 
 // Site cron job
 Route::get('site-cron', [CronJobController::class, 'runCronJobs'])->name('cron.job');
+
+
+Route::get('foodzza',function(){
+    return view('frontend.foodzza.layouts.app');
+});

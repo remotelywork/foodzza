@@ -88,7 +88,7 @@
                 <li class="side-nav-item category-title">
                     <span>{{ __('Food Management') }}</span>
                 </li>
-                <li class="side-nav-item side-nav-dropdown {{ isActive(['admin.food-category*','admin.food-item*']) }}">
+                <li class="side-nav-item side-nav-dropdown {{ isActive(['admin.food-category*','admin.food-item*','admin.promo-code*']) }}">
                     <a href="javascript:void(0);" class="dropdown-link"><i
                                 data-lucide="users"></i><span>{{ __('Food Management') }}</span>
                         <span class="right-arrow"><i data-lucide="chevron-down"></i></span></a>
@@ -99,11 +99,36 @@
                                 }}</span></a>
                             </li>
                         @endcanany
+                            @canany(['role-list','role-create','role-edit'])
+                                <li class="{{ isActive('admin.food-item*') }}">
+                                    <a href="{{route('admin.food-item.index')}}"><i data-lucide="contact"></i><span>{{ __('Food Item')
+                                }}</span></a>
+                                </li>
+                            @endcanany
+                            @canany(['role-list','role-create','role-edit'])
+                                <li class="{{ isActive('admin.promo-code*') }}">
+                                    <a href="{{route('admin.promo-code.index')}}"><i data-lucide="contact"></i><span>{{ __('Promo Code')
+                                }}</span></a>
+                                </li>
+                            @endcanany
                     </ul>
+                </li>
+            @endcanany
+
+
+            {{-- ************************************************************* Order Management *********************************************************--}}
+            @canany(['role-list','role-create','role-edit','staff-list','staff-create','staff-edit'])
+                <li class="side-nav-item category-title">
+                    <span>{{ __('Order Management') }}</span>
+                </li>
+                <li class="side-nav-item side-nav-dropdown {{ isActive(['admin.order*']) }}">
+                    <a href="javascript:void(0);" class="dropdown-link"><i
+                                data-lucide="users"></i><span>{{ __('Order Management') }}</span>
+                        <span class="right-arrow"><i data-lucide="chevron-down"></i></span></a>
                     <ul class="dropdown-items">
                         @canany(['role-list','role-create','role-edit'])
-                            <li class="{{ isActive('admin.food-item*') }}">
-                                <a href="{{route('admin.food-item.index')}}"><i data-lucide="contact"></i><span>{{ __('Food Item')
+                            <li class="{{ isActive('admin.order*') }}">
+                                <a href="{{route('admin.order.index')}}"><i data-lucide="contact"></i><span>{{ __('Orders List')
                                 }}</span></a>
                             </li>
                         @endcanany

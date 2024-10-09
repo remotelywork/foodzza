@@ -35,7 +35,7 @@ class FoodController extends Controller
         $title = "Food Items List";
 
 
-        return view('backend.food.index',compact('foodItems','foodCategories','title'));
+        return view('backend.food.index', compact('foodItems', 'foodCategories', 'title'));
     }
 
     /**
@@ -44,7 +44,7 @@ class FoodController extends Controller
     public function create()
     {
         $foodCategories = FoodCategory::all();
-        return view('backend.food.create',compact('foodCategories'));
+        return view('backend.food.create', compact('foodCategories'));
     }
 
     /**
@@ -52,7 +52,7 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'thumb_image' => 'required|image|mimes:jpg,png,svg',
             'name' => 'required',
             'price' => 'required',
@@ -115,8 +115,7 @@ class FoodController extends Controller
     {
         $food_detail = Food::where('id', $id)->first();
         $foodCategories = FoodCategory::all();
-//        dd($food_detail);
-        return view('backend.food.edit',compact('food_detail','foodCategories'));
+        return view('backend.food.edit', compact('food_detail', 'foodCategories'));
     }
 
     /**
@@ -124,8 +123,68 @@ class FoodController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $validator = Validator::make($request->all(), [
+            'thumb_image' => 'nullable|image|mimes:jpg,png,svg',
+            'name' => 'required',
+            'price' => 'required',
+            'category' => 'required',
+            'quantity' => 'required',
+            'status' => 'required',
+        ]);
 
+        if ($validator->fails()) {
+            notify()->error($validator->errors()->first(), 'Error');
+            return redirect()->back();
+        }
+
+        $foodItem = Food::findOrFail($id);
+        $input = $request->all();
+
+        // Retrieve existing images
+        $galleryImages = is_array($foodItem->images) ? $foodItem->images : [];
+
+        // Process new images
+        if ($request->hasFile('galleries')) {
+            foreach ($request->file('galleries') as $image) {
+                $galleryImages[] = self::imageUploadTrait($image);
+            }
+        }
+
+        // Remove deleted images
+        if (!empty($input['deleted_images'])) {
+            $deletedImages = explode(',', rtrim($input['deleted_images'], ','));
+            foreach ($deletedImages as $deletedImage) {
+                if (($key = array_search($deletedImage, $galleryImages)) !== false) {
+                    unset($galleryImages[$key]); // Remove the deleted image from the array
+                }
+            }
+        }
+
+        // Reindex the array after removing the images
+        $galleryImages = array_values($galleryImages);
+
+        // Handle the update data
+        $data = [
+            'thumb_image' => $request->hasFile('thumb_image') ? self::imageUploadTrait($input['thumb_image']) : $foodItem->thumb_image,
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'discount_price' => $input['discount_price'] == 0 ? null : $input['discount_price'],
+            'discount_validity' => $input['discount_validity'],
+            'category' => $input['category'],
+            'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
+            'quantity' => $input['quantity'],
+            'status' => $input['status'],
+            'overview' => $input['overview'],
+            'images' => !empty($galleryImages) ? $galleryImages : null, // Save images if present
+        ];
+
+        $foodItem->update($data);
+
+        notify()->success('Item updated successfully');
+        return redirect()->route('admin.food-item.index');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

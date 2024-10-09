@@ -3,8 +3,7 @@
     id="editModal"
     tabindex="-1"
     aria-labelledby="editCategoryModalLabel"
-    aria-hidden="true"
->
+    aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content site-table-modal">
             <div class="modal-body popup-body">
@@ -12,13 +11,22 @@
                     type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                    aria-label="Close"></button>
                 <div class="popup-body-text">
                     <h3 class="title mb-4">{{ __('Edit Category') }}</h3>
                     <form action="" id="editForm" method="post">
                         @csrf
                         @method('PUT')
+                        <div class="site-input-groups">
+                            <label class="box-input-label" for="">{{ __('Icon:') }}</label>
+                            <div class="wrap-custom-file">
+                                <input type="file" name="icon" id="icon" accept=".gif, .jpg, .png" required />
+                                <label for="thumbImage">
+                                    <img class="upload-icon" src="{{asset('global/materials/upload.svg')}}" alt="" />
+                                    <span>{{ __('Upload Icon') }}</span>
+                                </label>
+                            </div>
+                        </div>
                         <div class="site-input-groups">
                             <label for="" class="box-input-label">{{ __('Category Name') }}</label>
                             <input
@@ -26,8 +34,7 @@
                                 class="box-input mb-0"
                                 required=""
                                 name="name"
-                                id="name"
-                            />
+                                id="name" />
                         </div>
                         <div class="site-input-groups">
                             <label class="box-input-label" for="">{{ __('Status') }}</label>
@@ -46,8 +53,7 @@
                                 href="#"
                                 class="site-btn-sm red-btn"
                                 data-bs-dismiss="modal"
-                                aria-label="Close"
-                            >
+                                aria-label="Close">
                                 <i icon-name="x"></i>
                                 {{ __('Cancel') }}
                             </a>

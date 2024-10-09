@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('food_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('status');
+            $table->string('icon');
+            $table->boolean('is_featured')->default(0);
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

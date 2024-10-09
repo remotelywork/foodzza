@@ -35,6 +35,8 @@ use App\Http\Controllers\Backend\WithdrawController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\FoodController;
 use App\Http\Controllers\Backend\FoodCategoryController;
+use App\Http\Controllers\Backend\PromoCodeController;
+Use App\Http\Controllers\Backend\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +82,12 @@ Route::resource('food-category',FoodCategoryController::class);
 //===============================  Food Item Management ==================================
 Route::resource('food-item',FoodController::class);
 
+//===============================  Food Item Management ==================================
+Route::resource('promo-code',PromoCodeController::class);
+
+
+//===============================  Order Management ==================================
+Route::resource('order',OrderController::class);
 
 //===============================  Role Management ==================================
 Route::resource('roles', RoleController::class)->except('show', 'destroy');

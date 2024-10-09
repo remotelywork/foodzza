@@ -66,12 +66,18 @@
                                     <td>{{ $foodItem->foodCategory->name }}</td>
                                     <td>{{ $foodItem->price }}</td>
                                     <td>{{ $foodItem->quantity }}</td>
-                                    <td>{{ $foodItem->shipping_cost }}</td>
+                                    <td>
+                                        @if($foodItem->shipping_cost == null)
+                                            N/A
+                                        @else
+                                            {{ $foodItem->shipping_cost }}
+                                            @endif
+                                    </td>
                                     <td>
                                         @if($foodItem->status == 1)
-                                            Active
+                                            <div class="site-badge success">{{ __('Active') }}</div>
                                         @else
-                                            Dactive
+                                            <div class="site-badge danger">{{ __('Dactive') }}</div>
                                         @endif
                                     </td>
                                     <td>
