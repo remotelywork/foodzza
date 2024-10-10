@@ -47,13 +47,12 @@ class FoodCategoryController extends Controller
         }
 
         $input = $request->all();
-        $name = $input['name'];
-        $icon = self::imageUploadTrait($input['icon']);
-        $is_featured = $input['is_featured'];
-        $status = $input['status'];
-
-        FoodCategory::create($request->all());
-
+        FoodCategory::create([
+            'name' => $input['name'],
+            'icon' => self::imageUploadTrait($input['icon']),
+            'is_featured' => $input['is_featured'],
+            'status' => $input['status'],
+        ]);
 
         notify()->success('Food Category created successfully');
 
@@ -73,7 +72,14 @@ class FoodCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        return FoodCategory::find($id);
+        $category = FoodCategory::find($id);
+
+        return response()->json([
+            'name' => $category->name,
+            'icon' => asset($category->icon),
+            'is_featured' => $category->is_featured,
+            'status' => $category->status
+        ]);
     }
 
     /**
@@ -92,8 +98,18 @@ class FoodCategoryController extends Controller
             return redirect()->back();
         }
 
+
         $foodCategory = FoodCategory::find($id);
-        $foodCategory->update($request->all());
+        $input = $request->all();
+        $data = [
+            'name' => $input['name'],
+            'icon' => self::imageUploadTrait($input['icon']),
+            'is_featured' => $input['is_featured'],
+            'status' => $input['status'],
+        ];
+
+
+        $foodCategory->update($data);
 
         notify()->success('Food Category created successfully');
 

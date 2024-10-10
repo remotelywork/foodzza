@@ -14,14 +14,14 @@
                     aria-label="Close"></button>
                 <div class="popup-body-text">
                     <h3 class="title mb-4">{{ __('Edit Category') }}</h3>
-                    <form action="" id="editForm" method="post">
+                    <form action="" id="editForm" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="site-input-groups">
                             <label class="box-input-label" for="">{{ __('Icon:') }}</label>
                             <div class="wrap-custom-file">
-                                <input type="file" name="icon" id="icon" accept=".gif, .jpg, .png" required />
-                                <label for="thumbImage">
+                                <input type="file" name="icon" id="editThumbImage" accept=".gif, .jpg, .png" required />
+                                <label for="editThumbImage">
                                     <img class="upload-icon" src="{{asset('global/materials/upload.svg')}}" alt="" />
                                     <span>{{ __('Upload Icon') }}</span>
                                 </label>
@@ -35,6 +35,15 @@
                                 required=""
                                 name="name"
                                 id="name" />
+                        </div>
+                        <div class="site-input-groups">
+                            <label class="box-input-label" for="">{{ __('Is Featured:') }}</label>
+                            <div class="switch-field same-type">
+                                <input type="radio" id="radio-five" name="is_featured" checked="" value="1" />
+                                <label for="radio-five">{{ __('Active') }}</label>
+                                <input type="radio" id="radio-six" name="is_featured" value="0" />
+                                <label for="radio-six">{{ __('Deactivate') }}</label>
+                            </div>
                         </div>
                         <div class="site-input-groups">
                             <label class="box-input-label" for="">{{ __('Status') }}</label>

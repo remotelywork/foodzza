@@ -44,7 +44,7 @@
                                     <tr>
                                         <td>{{++$loop->index}}</td>
                                         <td>
-                                            <img src="{{ asset($category->icon) }}">
+                                            <img style="max-width: 50px" src="{{ asset($category->icon) }}">
                                         </td>
                                         <td>{{$category->name}}</td>
                                         <td>
@@ -103,9 +103,13 @@
             // Populate the modal fields with data
             $('#name').val(data.name);
             $('select[name="status"]').val(data.status);
+            $('select[name="is_featured"]').val(data.is_featured);
 
+            $('label[for=editThumbImage]').addClass('file-ok');
+            $('label[for=editThumbImage]').css('background','url('+data.icon+')');
             // Show the modal after data is populated
             $('#editModal').modal('show');
+
         });
     });
 </script>

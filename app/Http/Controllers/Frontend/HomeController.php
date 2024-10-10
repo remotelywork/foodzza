@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Food;
+use App\Models\FoodCategory;
 use App\Models\Theme;
 use App\Models\LandingPage;
 use Illuminate\Support\Str;
@@ -30,6 +32,7 @@ class HomeController extends Controller
         return redirect($redirectPage);
 
     }
+
 
     public function subscribeNow(Request $request)
     {
@@ -80,5 +83,11 @@ class HomeController extends Controller
         session([$key => $value]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function FozzaHome()
+    {
+        $categories = FoodCategory::where('is_featured',1)->where('status',1)->get();
+        return view('frontend.foodzza.layouts.app',compact('categories'));
     }
 }

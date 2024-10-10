@@ -21,6 +21,7 @@ use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\TransactionController;
 use App\Http\Controllers\Frontend\FundTransferController;
 use App\Http\Controllers\Frontend\SubscriptionController;
+use App\Http\Controllers\Frontend\FoodController;
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
@@ -191,6 +192,5 @@ Route::get('notification-tune', [AppController::class, 'notificationTune'])->nam
 Route::get('site-cron', [CronJobController::class, 'runCronJobs'])->name('cron.job');
 
 
-Route::get('foodzza',function(){
-    return view('frontend.foodzza.layouts.app');
-});
+Route::get('foodzza',[HomeController::class,'FozzaHome']);
+Route::get('product-details/{id}',[FoodController::class,'productDetails'])->name('food.details');

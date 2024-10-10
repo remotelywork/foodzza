@@ -194,7 +194,7 @@
 
                                 <div class="col-xl-12">
                                     <button type="submit" class="site-btn-sm primary-btn w-100">
-                                        {{ __('Add New Item') }}
+                                        {{ __('Update Item') }}
                                     </button>
                                 </div>
                             </form>
