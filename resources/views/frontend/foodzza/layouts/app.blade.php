@@ -337,7 +337,7 @@
                             </div>
                             <div class="price-ratings">
                                 <div class="price">$26.08 <del>$32.5</del></div>
-                                <a href="cart.html" class="bttn-small btn-fill">Add to cart</a>
+                                <a href="" class="bttn-small btn-fill">Add to cart</a>
                             </div>
                         </div>
                     </div>

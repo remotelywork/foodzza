@@ -13,7 +13,6 @@ class FoodController extends Controller
         $food_details = Food::where('id', $id)->firstOrFail();
 
         $releted_items = Food::where('category', $food_details->category)->take(10)->get();
-//        dd($releted_items);
         return view('frontend.foodzza.pages.food_details',compact('food_details','releted_items'));
     }
 }

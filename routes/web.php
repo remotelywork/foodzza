@@ -22,9 +22,11 @@ use App\Http\Controllers\Frontend\TransactionController;
 use App\Http\Controllers\Frontend\FundTransferController;
 use App\Http\Controllers\Frontend\SubscriptionController;
 use App\Http\Controllers\Frontend\FoodController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Backend\PromoCodeController;
 
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
+//Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::post('subscriber', [HomeController::class, 'subscribeNow'])->name('subscriber');
 
 //Dynamic Page
@@ -192,5 +194,10 @@ Route::get('notification-tune', [AppController::class, 'notificationTune'])->nam
 Route::get('site-cron', [CronJobController::class, 'runCronJobs'])->name('cron.job');
 
 
-Route::get('foodzza',[HomeController::class,'FozzaHome']);
+
+Route::get('/',[HomeController::class,'FoodzzaHome'])->name('home');
 Route::get('product-details/{id}',[FoodController::class,'productDetails'])->name('food.details');
+Route::get('add-to-cart/{id}',[CartController::class,'AddToCart'])->name('add-to-cart');
+Route::get('carts',[CartController::class,'carts'])->name('carts');
+Route::get('cart-delete/{id}',[CartController::class,'Delete'])->name('cart.delete');
+Route::post('promo-check',[PromoCodeController::class,'promoCheck'])->name('promo-code.check');

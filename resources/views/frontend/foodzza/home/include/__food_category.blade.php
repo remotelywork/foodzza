@@ -53,7 +53,12 @@
                                                 @else
                                                     <div class="price">{{ $currencySymbol }}{{ $food->price }} </div>
                                                 @endif
-                                                <a href="cart.html" class="bttn-small btn-fill">Add to cart</a>
+                                                    <a href="{{ route('add-to-cart', $food->id) }}"
+                                                       class="bttn-small btn-fill" @if(!\Illuminate\Support\Facades\Auth::check())
+                                                       onclick="event.preventDefault(); alert('You must be logged in to add items to the cart.'); window.location.href='{{ route('login') }}';"
+                                                            @endif >
+                                                        Add to cart
+                                                    </a>
                                             </div>
                                         </div>
                                     </div>

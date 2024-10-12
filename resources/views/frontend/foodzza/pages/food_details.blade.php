@@ -68,17 +68,17 @@
                         <p>{{ $food_details->overview }}</p>
                         @if($food_details->complimentary_items != null)
                             <strong>Add more:</strong>
-                            @foreach($food_details->complimentary_items as $item)
+                            @foreach($food_details->complimentary_items as $key=>$item)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                <label class="form-check-label" for="inlineCheckbox1">{{ $item['name'] }} + <span>${{ $item['price'] }}</span></label>
+                                <input class="form-check-input" name="complimentary_item" type="checkbox" id="item.{{$key}}" value="option1">
+                                <label class="form-check-label" for="item.{{$key}}">{{ $item['name'] }} + <span>${{ $item['price'] }}</span></label>
                             </div>
                             @endforeach
                         @endif
                     </div>
                     <div class="btns mb-20">
-                        <a href="" class="bttn-mid btn-fill-2 mr-2"><i class="fas fa-shopping-cart"></i>Add to Cart</a>
-                        <a href="" class="bttn-mid btn-fill">Buy now</a>
+                        <a href="{{ route('add-to-cart',$food_details->id) }}" class="bttn-mid btn-fill-2 mr-2"><i class="fas fa-shopping-cart"></i>Add to Cart</a>
+                        {{--<a href="" class="">Buy now</a>--}}
                     </div>
                 </div>
             </div>

@@ -85,7 +85,7 @@ class HomeController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function FozzaHome()
+    public function FoodzzaHome()
     {
         $categories = FoodCategory::where('is_featured',1)->where('status',1)->get();
         return view('frontend.foodzza.layouts.app',compact('categories'));

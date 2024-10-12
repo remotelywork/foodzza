@@ -1,35 +1,30 @@
-@extends('frontend::layouts.auth')
+@include('frontend.foodzza.include.__head')
+@include('frontend.foodzza.include.__header')
+<!--Custom Banner-->
+<section class="custom-banner yellow-bg flower">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 centered">
+                <div class="banner-title">
+                    <h3>{{ __('Register Area') }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!--Custom Banner-->
 
-@section('title')
-    {{ __('Register') }}
-@endsection
-
-@push('style')
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/select2.min.css') }}">
-@endpush
-
-@section('content')
-    <!-- Sign up area start -->
-    <section class="sign-up-area">
-        <div class="auth-wrapper">
-            <div class="contents-inner">
-                <div class="content">
-                    <div class="account-steps justify-content-center">
-                        <div class="single-step active">
-                            <span class="line"></span>
-                            <p class="description">{{ __('Create account') }}</p>
+<!--Main Content Area-->
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12">
+                <div class="content-center">
+                    <div class="account-form">
+                        <div class="via-login">
+                            <a href="" class="facebook-bg"><i class="fab fa-facebook-f"></i></a>
+                            <a href="" class="google-plus-bg"><i class="fab fa-google"></i></a>
+                            <a href="" class="instagram-bg"><i class="fab fa-instagram"></i></a>
                         </div>
-                        @if(setting('email_verification'))
-                            <div class="single-step">
-                                <span class="line"></span>
-                                <p class="description">{{ __('Verification') }}</p>
-                            </div>
-                        @endif
-                    </div>
-                    <div class="top-content">
-                        <h3 class="title">{{ data_get($data,'title',__('Create an account')) }}</h3>
-                    </div>
-                    <div class="auth-form-wrapper">
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -40,145 +35,52 @@
                             </div>
                         @endif
 
-                        <form action="{{ route('register.now') }}" method="POST">
+                        <form action="{{ route('register') }}" method="POST">
                             @csrf
-                            <div class="single-input has-left-icon">
-                                <label class="input-label" for="">{{ __('First Name') }}<span class="text-danger">*</span></label>
-                                <div class="input-field">
-                                    <input type="text" class="box-input name-input" name="first_name" value="{{ old('first_name') }}" required placeholder="{{ __('Enter First Name') }}">
-                                    <span class="icon">
-                                        <i class="icon-profile-circle"></i>
-                                    </span>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <input type="text" name="first_name" value="{{ old('first_name') }}" placeholder="{{ __('First Name') }}">
                                 </div>
-                            </div>
-                            <div class="single-input has-left-icon">
-                                <label class="input-label" for="">{{ __('Last Name') }}<span class="text-danger">*</span></label>
-                                <div class="input-field">
-                                    <input type="text" class="box-input name-input" name="last_name" value="{{ old('last_name') }}" required placeholder="{{ __('Enter Last Name') }}">
-                                    <span class="icon">
-                                        <i class="icon-profile-circle"></i>
-                                    </span>
+                                <div class="col-xl-6">
+                                    <input type="text" name="last_name" value="{{ old('last_name') }}" placeholder="{{ __('Last Name') }}">
                                 </div>
-                            </div>
-                            @if(getPageSetting('username_show'))
-                                <div class="single-input has-left-icon">
-                                    <label class="input-label" for="">{{ __('Username') }}@if(getPageSetting('username_validation')) <span class="text-danger">*</span> @endif</label>
-                                    <div class="input-field">
-                                        <input type="text" class="box-input name-input" name="username" value="{{ old('username') }}" required placeholder="{{ __('Enter Username') }}">
-                                        <span class="icon">
-                                        <i class="icon-profile-circle"></i>
-                                    </span>
-                                    </div>
+                                <div class="col-xl-12">
+                                    <input type="text" name="username" value="{{ old('username') }}" placeholder="{{ __('Username') }}">
                                 </div>
-                            @endif
-                            <div class="single-input has-left-icon">
-                                <label class="input-label" for="">{{ __('Email Address') }}<span class="text-danger">*</span></label>
-                                <div class="input-field">
-                                    <input type="email" class="box-input email-input" name="email" value="{{ old('email') }}" required placeholder="{{ __('Enter email') }}">
-                                    <span class="icon">
-                                    <i class="icon-sms"></i>
-                                    </span>
+                                <div class="col-xl-12">
+                                    <input type="email" name="email" value="{{ old('email') }}" placeholder="{{ __('Email') }}">
                                 </div>
-                            </div>
-                            @if(getPageSetting('country_show'))
-                                <div class="single-input mb-2">
-                                    <label class="input-label" for="">{{ __('Country') }} @if(getPageSetting('country_validation')) <span class="text-danger">*</span> @endif</label>
-                                    <select name="country" class="box-input w-100" id="countrySelect">
-                                        @foreach( getCountries() as $country)
-                                            <option @selected($location->country_code == $country['code']) value="{{ $country['name'].':'.$country['dial_code'] }}" data-code="{{ $country['dial_code'] }}">{{ $country['name']  }}</option>
-                                        @endforeach
+                                <div class="col-xl-6">
+                                    <select id="gender-select" name="gender" class="form-control">
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
                                     </select>
                                 </div>
-                            @endif
-                            @if(getPageSetting('phone_show'))
-                                <div class="single-input">
-                                    <label class="input-label" for="">{{ __('Phone Number') }} @if(getPageSetting('country_validation')) <span class="text-danger">*</span> @endif</label>
-                                    <div class="input-field input-group">
-                                        <span class="input-group-text" id="dial-code">{{ $location->dial_code }}</span>
-                                        <input type="text" name="phone" value="{{ old('phone') }}">
-                                    </div>
+
+                                <div class="col-xl-12">
+                                    <input type="password" name="password" placeholder="{{ __('Password') }}">
                                 </div>
-                            @endif
-                            @if(getPageSetting('referral_code_show'))
-                                <div class="single-input">
-                                    <label class="input-label" for="">{{ __('Referral Code') }} @if(getPageSetting('referral_code_validation')) <span class="text-danger">*</span> @endif</label>
-                                    <div class="input-field">
-                                        <input type="text" name="invite" value="{{ old('invite',$referralCode) }}" class="box-input">
-                                    </div>
+                                <div class="col-xl-12">
+                                    <button type="submit" class="bttn-mid btn-fill w-100">{{ __('Create my account') }}</button>
                                 </div>
-                            @endif
-                            @if(getPageSetting('gender_show'))
-                                <div class="single-input mb-2">
-                                    <label class="input-label" for="">{{ __('Gender') }} @if(getPageSetting('gender_validation')) <span class="text-danger">*</span> @endif</label>
-                                    <select name="gender" class="box-input w-100" id="gender">
-                                        @foreach(['Male','Female','Others'] as $gender)
-                                            <option @selected($gender == old('gender')) value="{{ $gender }}">{{ $gender  }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="col-xl-12">
+                                    <p><a href="{{ route('login') }}">{{ __('Do you already have an account?') }}</a></p>
                                 </div>
-                            @endif
-                            <div class="single-input has-right-icon has-left-icon">
-                                <label class="input-label" for="">{{ __('Password') }}<span class="text-danger">*</span></label>
-                                <div class="input-field">
-                                    <input type="password" class="box-input password-input" name="password" required placeholder="{{ __('Enter password') }}">
-                                    <div class="password">
-                                        <img src="{{ asset('frontend/default/images/icons/eye-off.svg') }}" class="password-hide-show eyeicon" alt="">
-                                    </div>
-                                    <span class="icon">
-                                        <i class="icon-lock"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="single-input has-right-icon has-left-icon">
-                                <label class="input-label" for="">{{ __('Confirm Password') }}<span class="text-danger">*</span></label>
-                                <div class="input-field">
-                                    <input type="password" name="password_confirmation" class="box-input password-input" required placeholder="{{ __('Enter confirm password') }}">
-                                    <div class="password">
-                                        <img src="{{ asset('frontend/default/images/icons/eye-off.svg') }}" class="password-hide-show eyeicon" alt="">
-                                    </div>
-                                    <span class="icon">
-                                        <i class="icon-lock"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="inputs">
-                                <button type="submit" class="site-btn primary-btn w-100">{{ __('Create account') }}</button>
                             </div>
                         </form>
                     </div>
-                    <div class="bottom-content">
-                        <div class="have-acount">
-                            <p>{{ __('Already have an account ') }}<a href="{{ route('login') }}">{{ __('Log In') }}</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="terms-user">
-                    <p>{{ __('By clicking “Create account”, you agree to our') }}<a class="link" href="{{ url('/terms-and-conditions') }}">{{ __('Terms and Conditions') }}.</a></p>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Sign up area end -->
+    </div>
+</section><!--/Main Content Area-->
 
-@endsection
-@push('js')
-    <script src="{{ asset('frontend/default/js/select2.min.js') }}"></script>
-    <script>
-        (function($) {
-            'use strict';
+@include('frontend.foodzza.include.__footer')
 
-            $('#countrySelect').select2();
-            $('#gender').select2({
-                minimumResultsForSearch: Infinity
-            });
 
-            // Country Select
-            $('#countrySelect').on('change', function (e) {
-                "use strict";
-                e.preventDefault();
-                var country = $(this).val();
-                $('#dial-code').html(country.split(":")[1])
-            })
-        })(jQuery);
-    </script>
-@endpush
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+@include('frontend.foodzza.include.__script')
+</body>
+</html>

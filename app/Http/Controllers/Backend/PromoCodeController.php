@@ -132,4 +132,14 @@ class PromoCodeController extends Controller
         notify()->success('Item Deleted successfully');
         return redirect()->back();
     }
+
+    public function promoCheck(Request $request)
+    {
+        $validity = PromoCode::where('code', $request->code)->first();
+        if ($validity == null || $validity->validity < now()){
+            return redirect()->back()->with('Failed','Invalid Promo Code');
+        }else{
+            return $validity->amount;
+        }
+    }
 }

@@ -18,23 +18,24 @@ class DashboardController extends Controller
     {
 
         $user = auth()->user();
-        $transactions = Transaction::where('user_id', $user->id);
+//        $transactions = Transaction::where('user_id', $user->id);
+//
+//        $recentTransactions = $transactions->latest()->take(5)->get();
+//
+//        $referral = $user->getReferrals()->first();
+//
+//        $dataCount = [
+//            'total_transaction' => $transactions->count(),
+//            'total_deposit' => $user->totalDeposit(),
+//            'total_referral' => $referral?->relationships()->count() ?? 0,
+//            'total_tickets' => $user->ticket->count(),
+//            'total_withdraws' => $user->totalWithdraw(),
+//            'total_earnings' => $user->totalProfit(),
+//            'transactions' => $recentTransactions,
+//            'user' => $user,
+//        ];
 
-        $recentTransactions = $transactions->latest()->take(5)->get();
-
-        $referral = $user->getReferrals()->first();
-
-        $dataCount = [
-            'total_transaction' => $transactions->count(),
-            'total_deposit' => $user->totalDeposit(),
-            'total_referral' => $referral?->relationships()->count() ?? 0,
-            'total_tickets' => $user->ticket->count(),
-            'total_withdraws' => $user->totalWithdraw(),
-            'total_earnings' => $user->totalProfit(),
-            'transactions' => $recentTransactions,
-            'user' => $user,
-        ];
-
-        return view('frontend::user.dashboard', $dataCount);
+//        return view('frontend::user.dashboard', $dataCount);
+        return view('frontend.foodzza.user.dashboard');
     }
 }

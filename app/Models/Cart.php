@@ -9,8 +9,8 @@ class Cart extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user',
-        'product',
+        'user_id',
+        'product_id',
         'quantity',
         'total_price',
         'complimentary_item',
@@ -18,4 +18,9 @@ class Cart extends Model
         'promo_discount',
         'shipping_cost',
     ];
+
+    public function item(){
+
+       return $this->belongsTo(Food::class,'product_id', 'id');
+    }
 }

@@ -5,6 +5,7 @@
     <img src="{{ asset('frontend/default/images/logo.png') }}" alt="">
 </div><!--/Preloader -->
 
+
 <!--Header Area-->
 <header class="header-area">
     <nav class="navbar navbar-expand-lg main-menu">
@@ -18,12 +19,12 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav m-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-expanded="false">Home</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="index.html">Restaurant Landing</a></li>
-                            <li><a class="dropdown-item" href="index-2.html">Restaurant Shop</a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="{{ route('home') }}" role="button"  aria-expanded="false">Home</a>
+                        {{--<ul class="dropdown-menu">--}}
+                            {{--<li><a class="dropdown-item" href="index.html">Restaurant Landing</a></li>--}}
+                            {{--<li><a class="dropdown-item" href="index-2.html">Restaurant Shop</a></li>--}}
+                        {{--</ul>--}}
                     </li>
                     <!-- <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li> -->
                     <li class="nav-item dropdown">
@@ -75,9 +76,23 @@
                     </li>
                 </ul>
                 <div class="header-btn justify-content-end">
-                    <a href="" data-toggle="modal" data-target="#exampleModalCenter" class="bttn-small btn-fill"><i class="fas fa-user"></i> Login</a>
-                    <a href="cart.html" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>5</span></a>
+                @if(\Illuminate\Support\Facades\Auth::check())
+                        <a href="{{ route('user.dashboard') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Dashboard</a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a href="#" class="bttn-small btn-fill"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-user"></i> {{ __('Logout') }}
+                        </a>
+                @else
+                        <a href="{{ route('login') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Login</a>
+                @endif
+
+                    <a href="{{ route('carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>5</span></a>
                 </div>
+
             </div>
         </div>
     </nav>
