@@ -49,54 +49,21 @@
                             <h4>Billing Details</h4>
                         </div>
                         <div class="card-body">
+
                             <div class="input-text">
-                                <input class="input-text" type="text" placeholder="First name*">
+                                <input class="input-text" name="name" type="text" placeholder="Name*">
+                            </div>
+
+
+                            <div class="input-text">
+                                <input class="input-text" name="address" type="text" placeholder="Address">
+                            </div>
+
+                            <div class="input-text">
+                                <input class="input-text" name="phone" type="text" placeholder="Phone">
                             </div>
                             <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Last name*">
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Company name">
-                            </div>
-                            <div class="input-text">
-                                <select name="counrty">
-                                    <option value="">United States (US)</option>
-                                    <option value="">Germany</option>
-                                    <option value="">Italy</option>
-                                    <option value="">United Kingdom (UK)</option>
-                                    <option value="">France</option>
-                                    <option value="">Poland</option>
-                                    <option value="">Ireland</option>
-                                </select>
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Street address 1*">
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Street address 2*">
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Town / City*">
-                            </div>
-                            <div class="input-text">
-                                <select name="state">
-                                    <option value="">Alabama</option>
-                                    <option value="">Alaska</option>
-                                    <option value="">Arizona</option>
-                                    <option value="">California</option>
-                                    <option value="">Florida</option>
-                                    <option value="">Georgia</option>
-                                    <option value="">Hawaii</option>
-                                </select>
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Zip*">
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="text" placeholder="Phone">
-                            </div>
-                            <div class="input-text">
-                                <input class="input-text" type="email" placeholder="Email*">
+                                <input class="input-text" name="email" type="email" placeholder="Email*">
                             </div>
                             <div class="input-text">
                                 <textarea name="additional-msg" rows="4" placeholder="Additional Message: Note about your order"></textarea>

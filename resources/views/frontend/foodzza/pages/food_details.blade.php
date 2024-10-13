@@ -44,43 +44,51 @@
             </div>
 
             <div class="col-xl-5 col-md-5 col-sm-12">
-                <div class="product-details-content">
-                    <h2>{{ $food_details->name }}</h2>
-                    <div class="brand">
-                        <a href="">{{ $food_details->foodCategory->name }}</a>
-                    </div>
-                    <div class="stock">{{ $food_details->quantity }} Items Available</div>
-                    <div class="price">
-                        @if($food_details->discount_price != null)
-                            <div class="price">{{ $currencySymbol }}{{ $food_details->discount_price }} <del>{{ $currencySymbol }}{{ $food_details->price }}</del></div>
-                        @else
-                            <div class="price">{{ $currencySymbol }} {{ $food_details->price }} </div>
-                        @endif
-                    </div>
+                <form action="{{ route('add-to-cart.with-details', $food_details->id) }}" method="POST">
+                    <div class="product-details-content">
+                        <h2>{{ $food_details->name }}</h2>
+                        <div class="brand">
+                            <a href="">{{ $food_details->foodCategory->name }}</a>
+                        </div>
+                        <div class="stock">{{ $food_details->quantity }} Items Available</div>
+                        <div class="price">
+                            @if($food_details->discount_price != null)
+                                <div class="base-price" data-base-price="{{ $food_details->discount_price }}">
+                                    {{ $currencySymbol }}<span id="displayed-price">{{ $food_details->discount_price }}</span>
+                                    <del>{{ $currencySymbol }}{{ $food_details->price }}</del>
+                                </div>
+                            @else
+                                <div class="base-price" data-base-price="{{ $food_details->price }}">
+                                    {{ $currencySymbol }}<span id="displayed-price">{{ $food_details->price }}</span>
+                                </div>
+                            @endif
+                        </div>
+                        @csrf
+                        <div class="quantity">
+                            <a href="#" class="quantity__minus"><span>-</span></a>
+                            <input name="quantity" type="number" class="quantity__input" value="1" min="1" max="{{ $food_details->quantity }}" id="quantity-input">
+                            <a href="#" class="quantity__plus"><span>+</span></a>
+                        </div>
 
-                    <div class="quantity">
-                        <a href="#" class="quantity__minus"><span>-</span></a>
-                        <input name="quantity" type="text" class="quantity__input" value="1">
-                        <a href="#" class="quantity__plus"><span>+</span></a>
+                        <div class="overview">
+                            <strong>Overview:</strong>
+                            <p>{{ $food_details->overview }}</p>
+                            @if($food_details->complimentary_items != null)
+                                <strong>Add more:</strong>
+                                @foreach($food_details->complimentary_items as $key => $item)
+                                    <div class="form-check">
+                                        <input class="form-check-input complimentary-item" name="complimentary_item[]" type="checkbox" id="item-{{$key}}" value="{{ json_encode(['name' => $item['name'], 'price' => $item['price']]) }}">
+                                        <label class="form-check-label" for="item-{{$key}}">{{ $item['name'] }} + <span>${{ $item['price'] }}</span></label>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+
+                        <div class="btns mb-20">
+                            <button type="submit" class="bttn-mid btn-fill-2 mr-2"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
                     </div>
-                    <div class="overview">
-                        <strong>Overview:</strong>
-                        <p>{{ $food_details->overview }}</p>
-                        @if($food_details->complimentary_items != null)
-                            <strong>Add more:</strong>
-                            @foreach($food_details->complimentary_items as $key=>$item)
-                            <div class="form-check">
-                                <input class="form-check-input" name="complimentary_item" type="checkbox" id="item.{{$key}}" value="option1">
-                                <label class="form-check-label" for="item.{{$key}}">{{ $item['name'] }} + <span>${{ $item['price'] }}</span></label>
-                            </div>
-                            @endforeach
-                        @endif
-                    </div>
-                    <div class="btns mb-20">
-                        <a href="{{ route('add-to-cart',$food_details->id) }}" class="bttn-mid btn-fill-2 mr-2"><i class="fas fa-shopping-cart"></i>Add to Cart</a>
-                        {{--<a href="" class="">Buy now</a>--}}
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -124,12 +132,11 @@
                                     @else
                                         <div class="price">{{ $currencySymbol }}{{ $releted_item->price }} </div>
                                     @endif
-                                    <a href="cart.html" class="bttn-small btn-fill">Add to cart</a>
+                                    <a href="{{ route('add-to-cart',$releted_item->id) }}" class="bttn-small btn-fill">Add to cart</a>
                                 </div>
                             </div>
                         </div>
                     @endforeach
-
                 </div>
             </div>
         </div>
@@ -142,5 +149,113 @@
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 @include('frontend.foodzza.include.__script')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInput = document.getElementById('quantity-input');
+        const minusButton = document.querySelector('.quantity__minus');
+        const plusButton = document.querySelector('.quantity__plus');
+        const maxQuantity = {{ $food_details->quantity }}; // Available stock
+
+        // Handle minus button click
+        minusButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+
+        // Handle plus button click
+        plusButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue < maxQuantity) {
+                quantityInput.value = currentValue + 1;
+            }
+        });
+
+        // Prevent manual input of quantity higher than available quantity or below 1
+        quantityInput.addEventListener('input', function () {
+            let currentValue = parseInt(quantityInput.value);
+            if (currentValue > maxQuantity) {
+                quantityInput.value = maxQuantity;
+            } else if (currentValue < 1) {
+                quantityInput.value = 1;
+            }
+        });
+    });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInput = document.getElementById('quantity-input');
+        const minusButton = document.querySelector('.quantity__minus');
+        const plusButton = document.querySelector('.quantity__plus');
+        const displayedPrice = document.getElementById('displayed-price');
+        const basePrice = parseFloat(document.querySelector('.base-price').getAttribute('data-base-price'));
+        const complimentaryItems = document.querySelectorAll('.complimentary-item');
+        const maxQuantity = {{ $food_details->quantity }}; // Available stock
+
+        // Update total price
+        function updateTotalPrice() {
+            let quantity = parseInt(quantityInput.value);
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1;
+            } else if (quantity > maxQuantity) {
+                quantity = maxQuantity;
+            }
+            quantityInput.value = quantity;
+
+            // Calculate the base price with quantity
+            let totalPrice = basePrice * quantity;
+
+            // Add the prices of selected complimentary items
+            complimentaryItems.forEach(item => {
+                if (item.checked) {
+                    // Parse the JSON value of the checkbox and add the price
+                    const itemData = JSON.parse(item.value);
+                    totalPrice += parseFloat(itemData.price);
+                }
+            });
+
+            // Update displayed price
+            displayedPrice.textContent = totalPrice.toFixed(2);
+        }
+
+        // Handle minus button click
+        minusButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+                updateTotalPrice();
+            }
+        });
+
+        // Handle plus button click
+        plusButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            let quantity = parseInt(quantityInput.value);
+            if (quantity < maxQuantity) {
+                quantityInput.value = quantity + 1;
+                updateTotalPrice();
+            }
+        });
+
+        // Handle manual input for quantity
+        quantityInput.addEventListener('input', updateTotalPrice);
+
+        // Handle complimentary item selection
+        complimentaryItems.forEach(item => {
+            item.addEventListener('change', updateTotalPrice);
+        });
+
+        // Initial calculation
+        updateTotalPrice();
+    });
+
+</script>
+
 </body>
 </html>

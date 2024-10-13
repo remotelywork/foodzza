@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_number');
             $table->foreignId('user_id');
-            $table->foreignId('promo_code')->nullable();
+            $table->foreignId('product_id');
+            $table->string('quantity');
+            $table->string('promo_code')->nullable();
             $table->string('promo_discount')->default(0);
             $table->json('billing_details');
             $table->string('delivery_status');

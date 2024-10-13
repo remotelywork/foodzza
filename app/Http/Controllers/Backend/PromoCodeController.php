@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use function PHPUnit\Runner\validate;
-use function Spatie\Ignition\viewPath;
 
 class PromoCodeController extends Controller
 {

@@ -25,6 +25,7 @@
                             <th scope="col">Food Item</th>
                             <th scope="col">Item Name</th>
                             <th scope="col">Unit Price</th>
+                            <th scope="col">Complimentary Items</th>
                             <th scope="col">Shipping Charge</th>
                             <th scope="col">Quantity</th>
                             <th scope="col">Total</th>
@@ -33,6 +34,21 @@
                         </thead>
                         <tbody>
                         @foreach($carts as $food)
+                            @php
+                                $complimentaryItems = json_decode($food['complimentary_item'], true);
+                                $unitPrice = $food->item->discount_price ?? $food->item->price;
+                                $shippingCost = $food->item->shipping_cost ?? 0;
+                                $complimentaryTotal = 0;
+
+                                if ($complimentaryItems && is_array($complimentaryItems)) {
+                                    foreach ($complimentaryItems as $item) {
+                                        $complimentaryTotal += $item['price'];
+                                    }
+                                }
+                                $totalPrice = ($unitPrice * $food->quantity) + ($complimentaryTotal * $food->quantity) + $shippingCost;
+                            @endphp
+
+
                             <tr>
                                 <td><img src="{{ asset($food->item->thumb_image) }}" alt=""></td>
                                 <td><a href="{{ route('food.details', $food->item->id) }}">{{ $food->item->name }}</a></td>
@@ -43,6 +59,18 @@
                                         {{ $food->item->discount_price }}
                                     @endif
                                 </td>
+                                <td>
+                                    @if($complimentaryItems && is_array($complimentaryItems))
+                                        <ul>
+                                            @foreach($complimentaryItems as $item)
+                                                <li>{{ $item['name'] }}: ${{ $item['price'] }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        No items
+                                    @endif
+                                </td>
+
                                 <td class="shipping-charge">
                                     @if($food->item->shipping_cost == null)
                                         Free
@@ -51,48 +79,30 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <input min="1" max="100" name="quantity" value="1" type="number" class="quantity-input"
-                                           data-price="{{ $food->item->discount_price ?? $food->item->price }}"
-                                           data-shipping="{{ $food->item->shipping_cost ?? 0 }}">
+                                    <input min="1" max="{{ $food->item->quantity }}" name="quantity" value="{{ $food->quantity }}" type="number" class="quantity-input" id="quantity-{{ $food->id }}">
+                                    <p>Item Available: {{ $food->item->quantity }}</p>
                                 </td>
                                 <td class="total-price">
-                                    @if($food->item->discount_price == null)
-                                        {{ $food->item->price + ($food->item->shipping_cost ?? 0) }}
-                                    @else
-                                        {{ $food->item->discount_price + ($food->item->shipping_cost ?? 0) }}
-                                    @endif
+                                    ${{ number_format($totalPrice, 2) }}
                                 </td>
                                 <td><a href="{{ route('cart.delete', $food->id) }}"><i class="fas fa-times"></i></a></td>
                             </tr>
                         @endforeach
                         <tr class="text-right">
-                            <td colspan="6">
+                            <td colspan="12">
                                 <a href="{{ route('home') }}" class="bttn-small btn-fill-2 mr-3">Continue Shopping</a>
-                                 <button class="bttn-small btn-fill">Update Cart</button>
+                                <button type="submit" href="{{ route('cart.update') }}" class="bttn-small btn-fill">Update Cart</button>
                             </td>
                         </tr>
-
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 mb-30">
                 <div class="cart-card">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Promo Code</h4>
-                        </div>
-                        <div class="card-body">
-                            <p>Input your Promo Code</p>
-                            <form action="{{ route('promo-code.check') }}" method="post" class="form-inline">
-                                @csrf
-                                <input type="text" name="code" placeholder="Promo code" required>
-                                <button type="submit" class="bttn-small btn-fill-2">Check</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6">
@@ -110,75 +120,91 @@
                                 <p>Total</p>
                                 <p class="cart-amount" id="total">$0.00</p> <!-- Updated ID -->
                             </div>
-                            <a href="checkout.html" class="bttn-small btn-fill">Proceed to Checkout</a>
+                            <a href="{{ route('checkout') }}" class="bttn-small btn-fill">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
     </div>
 </section><!--/Cart area-->
 
 @include('frontend.foodzza.include.__footer')
 @include('frontend.foodzza.include.__script')
-        <script>
-            document.querySelectorAll('.quantity-input').forEach(input => {
-                input.addEventListener('change', function () {
-                    let quantity = parseInt(this.value);
-                    let price = parseFloat(this.getAttribute('data-price'));
-                    let shipping = parseFloat(this.getAttribute('data-shipping'));
 
-                    // Calculate total: (price * quantity) + shipping
-                    let total = (price * quantity) + shipping;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Initial calculation of cart total
+        updateCartTotals();
 
-                    // Update the total price in the DOM
-                    let totalPriceElement = this.closest('tr').querySelector('.total-price');
-                    totalPriceElement.textContent = total.toFixed(2);
-                });
-            });
+        // Loop through each quantity input and add validation
+        document.querySelectorAll('.quantity-input').forEach(function(input) {
+            const maxQuantity = parseInt(input.getAttribute('max'));
+            const foodId = input.getAttribute('id').split('-')[1];  // Get food ID
 
+            // Handle quantity changes
+            input.addEventListener('input', function () {
+                let quantity = parseInt(input.value);
 
-            document.addEventListener('DOMContentLoaded', function () {
-                // Function to calculate the subtotal and total
-                function calculateTotal() {
-                    let subtotal = 0;
-                    let total = 0;
-
-                    // Loop through all quantity inputs to calculate the subtotal and total
-                    document.querySelectorAll('.quantity-input').forEach(input => {
-                        let quantity = parseInt(input.value);
-                        let price = parseFloat(input.getAttribute('data-price'));
-                        let shipping = parseFloat(input.getAttribute('data-shipping'));
-
-                        // Calculate total for each item: (price * quantity) + shipping
-                        let itemTotal = (price * quantity) + shipping;
-
-                        // Add to subtotal (without shipping)
-                        subtotal += price * quantity;
-
-                        // Add to total (including shipping)
-                        total += itemTotal;
-
-                        // Update the item's total price in the table row
-                        let totalPriceElement = input.closest('tr').querySelector('.total-price');
-                        totalPriceElement.textContent = itemTotal.toFixed(2);
-                    });
-
-                    // Update the subtotal and total values in the cart
-                    document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-                    document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+                // Ensure the quantity doesn't exceed available stock
+                if (quantity > maxQuantity) {
+                    input.value = maxQuantity; // Set to max available
+                } else if (quantity < 1) {
+                    input.value = 1; // Set to minimum 1
                 }
 
-                // Initial calculation on page load
-                calculateTotal();
+                // Update the total price of this row
+                updateCartTotal(foodId, input.value);
+                // Update the overall cart totals
+                updateCartTotals();
+            });
+        });
 
-                // Add event listeners to quantity inputs to recalculate total on change
-                document.querySelectorAll('.quantity-input').forEach(input => {
-                    input.addEventListener('change', calculateTotal);
-                });
+        // Function to update the total price for each item
+        function updateCartTotal(foodId, quantity) {
+            const row = document.querySelector(`#quantity-${foodId}`).closest('tr');
+            const unitPrice = parseFloat(row.querySelector('.unit-price').textContent.replace('$', '').trim());
+            const complimentaryItems = row.querySelectorAll('.complimentary-item-price');
+            let complimentaryItemsTotal = 0;
+
+            // Calculate complimentary items total (multiply price by quantity)
+            complimentaryItems.forEach(function(item) {
+                complimentaryItemsTotal += parseFloat(item.textContent.replace('$', '').trim());
             });
 
-        </script>
+            const shippingCost = parseFloat(row.querySelector('.shipping-charge').textContent.replace('$', '').trim()) || 0;
+
+            // Calculate total price for this item
+            const totalPrice = (unitPrice * quantity) + (complimentaryItemsTotal * quantity) + shippingCost;
+            row.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        // Function to update the subtotal and total
+        function updateCartTotals() {
+            let subtotal = 0;
+            let shippingTotal = 0;
+
+            // Loop through each row and sum the total prices
+            document.querySelectorAll('.total-price').forEach(function(item) {
+                subtotal += parseFloat(item.textContent.replace('$', '').trim());
+            });
+
+            // Sum the shipping charges
+            document.querySelectorAll('.shipping-charge').forEach(function(item) {
+                shippingTotal += parseFloat(item.textContent.replace('$', '').trim()) || 0;
+            });
+
+            const total = subtotal + shippingTotal;
+
+            // Update the subtotal and total fields in the new location
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+    });
+</script>
+
+
+
 </body>
 </html>

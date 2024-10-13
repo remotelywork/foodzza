@@ -24,7 +24,7 @@ use App\Http\Controllers\Frontend\SubscriptionController;
 use App\Http\Controllers\Frontend\FoodController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\PromoCodeController;
-
+use App\Http\Controllers\Frontend\CheckoutController;
 
 //Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::post('subscriber', [HomeController::class, 'subscribeNow'])->name('subscriber');
@@ -198,6 +198,12 @@ Route::get('site-cron', [CronJobController::class, 'runCronJobs'])->name('cron.j
 Route::get('/',[HomeController::class,'FoodzzaHome'])->name('home');
 Route::get('product-details/{id}',[FoodController::class,'productDetails'])->name('food.details');
 Route::get('add-to-cart/{id}',[CartController::class,'AddToCart'])->name('add-to-cart');
+Route::post('add-to-cart-with-details/{id}',[CartController::class,'addToCartWithDetails'])->name('add-to-cart.with-details');
 Route::get('carts',[CartController::class,'carts'])->name('carts');
 Route::get('cart-delete/{id}',[CartController::class,'Delete'])->name('cart.delete');
 Route::post('promo-check',[PromoCodeController::class,'promoCheck'])->name('promo-code.check');
+
+Route::post('update-cart',[CartController::class,'updateCart'])->name('cart.update');
+
+
+Route::get('checkout',[CheckoutController::class,'checkout'])->name('checkout');
