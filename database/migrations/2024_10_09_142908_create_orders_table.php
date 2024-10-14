@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('order_number');
             $table->foreignId('user_id');
-            $table->foreignId('product_id');
+            $table->json('product_details');
             $table->string('quantity');
             $table->string('promo_code')->nullable();
             $table->string('promo_discount')->default(0);

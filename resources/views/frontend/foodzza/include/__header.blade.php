@@ -90,7 +90,7 @@
                         <a href="{{ route('login') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Login</a>
                 @endif
 
-                    <a href="{{ route('carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>5</span></a>
+                    <a href="{{ route('carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>{{ cartCount() }}</span></a>
                 </div>
 
             </div>

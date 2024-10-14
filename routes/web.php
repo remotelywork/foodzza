@@ -25,6 +25,7 @@ use App\Http\Controllers\Frontend\FoodController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Backend\PromoCodeController;
 use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\OrderController;
 
 //Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::post('subscriber', [HomeController::class, 'subscribeNow'])->name('subscriber');
@@ -201,9 +202,14 @@ Route::get('add-to-cart/{id}',[CartController::class,'AddToCart'])->name('add-to
 Route::post('add-to-cart-with-details/{id}',[CartController::class,'addToCartWithDetails'])->name('add-to-cart.with-details');
 Route::get('carts',[CartController::class,'carts'])->name('carts');
 Route::get('cart-delete/{id}',[CartController::class,'Delete'])->name('cart.delete');
-Route::post('promo-check',[PromoCodeController::class,'promoCheck'])->name('promo-code.check');
+
 
 Route::post('update-cart',[CartController::class,'updateCart'])->name('cart.update');
 
 
 Route::get('checkout',[CheckoutController::class,'checkout'])->name('checkout');
+
+Route::post('promo-apply',[PromoCodeController::class,'promoApply'])->name('promo.apply');
+
+Route::post('order-place',[OrderController::class,'create'])->name('order.place');
+

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppliedCoupon;
 use App\Models\PromoCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PromoCodeController extends Controller
@@ -131,13 +133,34 @@ class PromoCodeController extends Controller
         return redirect()->back();
     }
 
-    public function promoCheck(Request $request)
+    public function promoApply(Request $request)
     {
-        $validity = PromoCode::where('code', $request->code)->first();
-        if ($validity == null || $validity->validity < now()){
-            return redirect()->back()->with('Failed','Invalid Promo Code');
-        }else{
-            return $validity->amount;
+
+        $validity = PromoCode::where('code', $request->code)
+            ->where('validity', '>=', now())
+            ->first();
+
+        if (!$validity) {
+
+            return redirect()->back()->with('Failed', 'Invalid or expired promo code.');
         }
+
+        $appliedOrNot = AppliedCoupon::where('user_id', Auth::id())
+        ->where('coupon_id', $validity->id)
+            ->exists();
+
+        if ($appliedOrNot) {
+            return redirect()->back()->with('Failed', 'Promo code already applied.');
+        }
+
+        AppliedCoupon::create([
+            'user_id' => Auth::id(),
+            'coupon_id' => $validity->id,
+            'amount' => $validity->amount,
+            'status' => false,
+        ]);
+
+        return redirect()->back()->with('success', 'Promo code applied successfully.');
     }
+
 }

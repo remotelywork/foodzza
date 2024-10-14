@@ -45,7 +45,7 @@
                                         $complimentaryTotal += $item['price'];
                                     }
                                 }
-                                $totalPrice = ($unitPrice * $food->quantity) + ($complimentaryTotal * $food->quantity) + $shippingCost;
+                                $totalPrice = ($unitPrice * $food->quantity) + ((float)$complimentaryTotal * $food->quantity) + $shippingCost;
                             @endphp
 
 
@@ -90,8 +90,7 @@
                         @endforeach
                         <tr class="text-right">
                             <td colspan="12">
-                                <a href="{{ route('home') }}" class="bttn-small btn-fill-2 mr-3">Continue Shopping</a>
-                                <button type="submit" href="{{ route('cart.update') }}" class="bttn-small btn-fill">Update Cart</button>
+                                <button type="submit" href="{{ route('home') }}" class="bttn-small btn-fill">Continue Shopping</button>
                             </td>
                         </tr>
                         </tbody>
@@ -154,12 +153,36 @@
                     input.value = 1; // Set to minimum 1
                 }
 
-                // Update the total price of this row
-                updateCartTotal(foodId, input.value);
-                // Update the overall cart totals
+                // Update the total price of this row and send AJAX request
+                const totalPrice = updateCartTotal(foodId, input.value);
                 updateCartTotals();
+
+                // AJAX request to update the cart quantity and total price
+                updateCartQuantity(foodId, quantity, totalPrice);
             });
         });
+
+        // Function to send AJAX request to update cart quantity and total
+        function updateCartQuantity(foodId, quantity, totalPrice) {
+            $.ajax({
+                url: '{{ route("cart.update") }}',  // Your route for updating cart
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',  // CSRF Token
+                    food_id: foodId,
+                    quantity: quantity,
+                    total_price: totalPrice
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        updateCartTotals();  // Recalculate totals on success
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error updating cart:', error);
+                }
+            });
+        }
 
         // Function to update the total price for each item
         function updateCartTotal(foodId, quantity) {
@@ -178,6 +201,8 @@
             // Calculate total price for this item
             const totalPrice = (unitPrice * quantity) + (complimentaryItemsTotal * quantity) + shippingCost;
             row.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
+
+            return totalPrice;  // Return the total price to update in the database
         }
 
         // Function to update the subtotal and total
@@ -197,14 +222,13 @@
 
             const total = subtotal + shippingTotal;
 
-            // Update the subtotal and total fields in the new location
+            // Update the subtotal and total fields
             document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
             document.getElementById('total').textContent = `$${total.toFixed(2)}`;
         }
     });
+
 </script>
-
-
 
 </body>
 </html>

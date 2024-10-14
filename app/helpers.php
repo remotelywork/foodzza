@@ -14,6 +14,21 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
+
+
+
+if (! function_exists('cartCount')){
+    function cartCount()
+    {
+        if (Auth::check()) {
+            return Cart::where('user_id', Auth::id())->count();
+        }
+        return 0;
+    }
+}
+
 
 if (! function_exists('isActive')) {
     function isActive($route, $parameter = null)
@@ -35,6 +50,8 @@ if (! function_exists('isActive')) {
 
     }
 }
+
+
 
 if (! function_exists('tnotify')) {
     function tnotify($type, $message)
