@@ -26,7 +26,7 @@
                 <div class="col-xl-8">
                     <div class="site-card">
                         <div class="site-card-body">
-                            <form action="{{route('admin.food-item.update',$food_detail->id)}}" method="post" enctype="multipart/form-data" class="row">
+                            <form action="{{route('admin.food-item.update',$food_detail->id)}}" method="post" enctype="multipart/form-data" class="row site-input-groups">
                                 @csrf
                                 @method('PUT')
                                 <div class="col-xl-12">
@@ -51,21 +51,19 @@
                                         <input type="text" name="name" class="box-input" value="{{ $food_detail->name }}" required />
                                     </div>
                                 </div>
-                                <div class="col-xl-6 schema-badge">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('Price:') }}</label>
-                                        <input type="number" class="box-input" value="{{ $food_detail->price }}" name="price" required />
+                                <div class="col-xl-6 ">
+                                    <label class="box-input-label" for="">{{ __('Price:') }}</label>
+                                    <div class="input-group joint-input">
+                                        <input type="text" name="price" value="{{ $food_detail->price }}"  class="form-control" required />
+                                        <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6">
-                                    <div class="site-input-groups row">
-                                        <div class="col-xl-12">
-                                            <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
-                                            <div class="position-relative">
-                                                <input type="number" class="box-input" value="{{ $food_detail->discount_price }}"  name="discount_price"  />
-                                            </div>
-                                        </div>
+                                <div class="col-xl-6 ">
+                                    <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
+                                    <div class="input-group joint-input">
+                                        <input type="text" name="discount_price" value="{{ $food_detail->discount_price }}"   class="form-control" required />
+                                        <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
 
@@ -79,25 +77,34 @@
                                     </div>
                                 </div>
 
+                                {{--<div class="col-xl-6">--}}
+                                    {{--<div class="site-input-groups">--}}
+                                        {{--<label class="box-input-label" for="">{{ __('Select Category:') }}</label>--}}
+                                        {{--<select name="category" class="form-select" required>--}}
+                                            {{--<option value="" disabled selected>{{ __('Select category') }}</option>--}}
+                                            {{--@foreach($foodCategories as $foodCategory)--}}
+                                                {{--<option value="{{ $foodCategory->id }}" @if($food_detail->category == $foodCategory->id ) selected @endif> {{ $foodCategory->name }} </option>--}}
+                                            {{--@endforeach--}}
+                                        {{--</select>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                                 <div class="col-xl-6">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Select Category:') }}</label>
-                                        <select name="category" class="form-select" required>
-                                            <option value="" disabled selected>{{ __('Select category') }}</option>
+                                        <select id="choices-multiple-remove-button" name="category[]" class="form-select" placeholder="select category" multiple required>
+                                            <option value="" disabled >{{ __('Select category') }}</option>
                                             @foreach($foodCategories as $foodCategory)
-                                                <option value="{{ $foodCategory->id }}" @if($food_detail->category == $foodCategory->id ) selected @endif> {{ $foodCategory->name }} </option>
+                                                <option value="{{ $foodCategory->id }}"> {{ $foodCategory->name }} </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6  cancel-expiry">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label"
-                                               for="">{{ __('Delivery Cost:') }}</label>
-                                        <div class="input-group joint-input">
-                                            <input type="text" value="{{ $food_detail->shipping_cost }}" name="shipping_cost" class="form-control"/>
-                                        </div>
+                                <div class="col-xl-6 ">
+                                    <label class="box-input-label" for="">{{ __('Delivery Cost:') }}</label>
+                                    <div class="input-group joint-input">
+                                        <input type="text" value="{{ $food_detail->shipping_cost }}" name="shipping_cost"  class="form-control" required />
+                                        <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
 
@@ -304,6 +311,13 @@
             });
         });
 
+
+        var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount: 7,
+            searchResultLimit: 7,
+            renderChoiceLimit: 7
+        });
     </script>
 
 

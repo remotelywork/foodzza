@@ -87,7 +87,8 @@ class HomeController extends Controller
 
     public function FoodzzaHome()
     {
-        $categories = FoodCategory::where('is_featured',1)->where('status',1)->get();
-        return view('frontend.foodzza.layouts.app',compact('categories'));
+        $packs = FoodCategory::where('is_featured',1)->where('status',1)->get();
+        $categories = FoodCategory::where('status',1)->get();
+        return view('frontend.foodzza.layouts.app',compact('categories','packs'));
     }
 }

@@ -83,7 +83,7 @@ class FoodController extends Controller
             'price' => $input['price'],
             'discount_price' => $input['discount_price'] == 0 ? null : $input['discount_price'],
             'discount_validity' => $input['discount_validity'],
-            'category' => $input['category'],
+            'category' => json_encode($input['category']),
             'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
             'quantity' => $input['quantity'],
             'status' => $input['status'],

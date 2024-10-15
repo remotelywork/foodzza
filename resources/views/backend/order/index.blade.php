@@ -63,9 +63,20 @@
                                     <td>{{ $order->user->username }}</td>
                                     <td>{{ $order->quantity }}</td>
                                     <td>{{ $order->promo_code }}</td>
-                                    <td>{{ $order->promo_discount }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->delivery_status }}</td>
+                                    <td>{{ $currencySymbol }}{{ $order->promo_discount }}</td>
+                                    <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
+                                    <td>
+
+                                        @if($order->delivery_status == "pending")
+                                            <div class="site-badge success">{{ __('Pending') }}</div>
+                                        @elseif($order->delivery_status == 'processing')
+                                            <div class="site-badge success">{{ __('Processing') }}</div>
+                                        @elseif($order->delivery_status == 'on_delivery')
+                                            <div class="site-badge success">{{ __('On Delivery') }}</div>
+                                        @elseif($order->delivery_status == 'delivered')
+                                            <div class="site-badge success">{{ __('Delivered') }}</div>
+                                        @endif
+                                    </td>
                                     <td>{{ $order->payment_method }}</td>
                                     <td>
                                         <a href="{{ route('admin.order.edit',$order->id) }}" class="round-icon-btn primary-btn" type="button" id="edit"

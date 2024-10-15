@@ -63,8 +63,8 @@
                                 <tr>
                                     <td><img style="max-width: 35px" src="{{ asset($foodItem->thumb_image) }}"></td>
                                     <td>{{ $foodItem->name }}</td>
-                                    <td>{{ $foodItem->foodCategory->name }}</td>
-                                    <td>{{ $foodItem->price }}</td>
+                                    <td>{{ $foodItem->foodCategory->name ?? 'uncategorized'  }}</td>
+                                    <td>{{ $currencySymbol }}{{ $foodItem->price }}</td>
                                     <td>{{ $foodItem->quantity }}</td>
                                     <td>
                                         @if($foodItem->shipping_cost == null)

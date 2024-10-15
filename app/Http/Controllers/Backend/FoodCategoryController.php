@@ -121,6 +121,9 @@ class FoodCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        FoodCategory::where('id',$id)->delete();
+
+        notify()->success('Food Category created successfully');
+        return redirect()->back();
     }
 }

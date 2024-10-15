@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('price');
             $table->string('discount_price')->nullable();
             $table->dateTime('discount_validity')->nullable();
-            $table->foreignId('category');
+            $table->json('category');
             $table->string('quantity');
             $table->longText('overview')->nullable();
             $table->string('complimentary_items')->nullable();

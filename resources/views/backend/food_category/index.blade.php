@@ -36,7 +36,7 @@
                                         <th scope="col">{{ __('Name') }}</th>
                                         <th scope="col">{{ __('Is Featured') }}</th>
                                         <th scope="col">{{ __('Status') }}</th>
-                                        <th scope="col">{{ __('Action') }}</th>
+                                        <th scope="col">{{ __('Actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +71,13 @@
                                                 data-id="{{ $category->id }}">
                                                 <i icon-name="edit-3"></i>
                                             </button>
+                                            <form action="{{ route('admin.food-category.destroy', $category->id) }}" method="POST" style="display: inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="round-icon-btn primary-btn" id="delete" data-id="{{ $category->id }}">
+                                                    <i icon-name="delete"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach

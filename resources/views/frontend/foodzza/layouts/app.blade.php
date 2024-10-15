@@ -127,6 +127,7 @@
         <p>Placeat sit excepturi sapiente <br> reiciendis quo sed adip</p>
         <a href="shop.html" class="bttn-mid btn-emt">Shop Now</a>
         <img src="{{ asset('frontend/default/images/food-3.png') }}" alt="">
+        {{--<img src="{{ asset('frontend/default/images/food.png') }}" alt="">--}}
     </div>
 </section><!--/pack Area-->
 

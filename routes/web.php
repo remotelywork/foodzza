@@ -212,4 +212,4 @@ Route::get('checkout',[CheckoutController::class,'checkout'])->name('checkout');
 Route::post('promo-apply',[PromoCodeController::class,'promoApply'])->name('promo.apply');
 
 Route::post('order-place',[OrderController::class,'create'])->name('order.place');
-
+ Route::get('user/dashboard',[DashboardController::class,'orders'])->name('user.dashboard');

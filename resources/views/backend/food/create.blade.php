@@ -20,13 +20,12 @@
                 </div>
             </div>
         </div>
-
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-xl-8">
                     <div class="site-card">
                         <div class="site-card-body">
-                            <form action="{{route('admin.food-item.store')}}" method="post" enctype="multipart/form-data" class="row">
+                            <form action="{{route('admin.food-item.store')}}" method="post" enctype="multipart/form-data" class="row site-input-groups">
                                 @csrf
                                 <div class="col-xl-12">
                                     <div class="row">
@@ -50,21 +49,20 @@
                                         <input type="text" name="name" class="box-input" placeholder="Item name" required />
                                     </div>
                                 </div>
-                                <div class="col-xl-6 schema-badge">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('Price:') }}</label>
-                                        <input type="number" class="box-input" placeholder="price" name="price" required />
+
+                                <div class="col-xl-6 ">
+                                    <label class="box-input-label" for="">{{ __('Price:') }}</label>
+                                    <div class="input-group joint-input">
+                                        <input type="text" name="price"  class="form-control" required />
+                                        <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6">
-                                    <div class="site-input-groups row">
-                                        <div class="col-xl-12">
-                                            <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
-                                            <div class="position-relative">
-                                                <input type="number" class="box-input" placeholder="discount price"  name="discount_price"  />
-                                            </div>
-                                        </div>
+                                <div class="col-xl-6 ">
+                                    <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
+                                    <div class="input-group joint-input">
+                                        <input type="text" name="discount_price"  class="form-control" required />
+                                        <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
 
@@ -80,8 +78,8 @@
                                 <div class="col-xl-6">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Select Category:') }}</label>
-                                        <select name="category" class="form-select" required>
-                                            <option value="" disabled selected>{{ __('Select category') }}</option>
+                                        <select id="choices-multiple-remove-button" name="category[]" class="form-select" placeholder="select category" multiple required>
+                                            <option value="" disabled >{{ __('Select category') }}</option>
                                             @foreach($foodCategories as $foodCategory)
                                                 <option value="{{ $foodCategory->id }}"> {{ $foodCategory->name }} </option>
                                             @endforeach
@@ -89,13 +87,11 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6  cancel-expiry">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label"
-                                               for="">{{ __('Delivery Cost:') }}</label>
-                                        <div class="input-group joint-input">
-                                            <input type="text" placeholder="shipping cost" name="shipping_cost" class="form-control"/>
-                                        </div>
+                                <div class="col-xl-6 ">
+                                    <label class="box-input-label" for="">{{ __('Shipping Price:') }}</label>
+                                    <div class="input-group joint-input">
+                                        <input type="text" name="shipping_cost"  class="form-control" required />
+                                        <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
 
@@ -104,7 +100,7 @@
                                         <label class="box-input-label"
                                                for="">{{ __('Quantity:') }}</label>
                                         <div class="input-group joint-input">
-                                            <input type="number" placeholder="quantity" name="quantity" class="form-control"/>
+                                            <input type="text" placeholder="quantity" name="quantity" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
@@ -233,6 +229,23 @@
                 $(this).closest('.col-xl-3').remove();
             });
         });
+    </script>
+
+
+
+
+    <script src="{{ asset('backend/js/choices.min.js') }}"></script>
+    <script>
+
+        (function ($) {
+            'use strict';
+
+            var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+                removeItemButton: true,
+
+            });
+
+        })(jQuery)
     </script>
 
 

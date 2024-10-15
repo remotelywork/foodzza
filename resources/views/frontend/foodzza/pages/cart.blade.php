@@ -48,7 +48,6 @@
                                 $totalPrice = ($unitPrice * $food->quantity) + ((float)$complimentaryTotal * $food->quantity) + $shippingCost;
                             @endphp
 
-
                             <tr>
                                 <td><img src="{{ asset($food->item->thumb_image) }}" alt=""></td>
                                 <td><a href="{{ route('food.details', $food->item->id) }}">{{ $food->item->name }}</a></td>

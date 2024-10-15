@@ -63,8 +63,10 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-//        dd($id);
-//        return view('backend.order.edit');
+
+        $order = Order::find($id);
+
+        return view('backend.order.edit',compact('order'));
     }
 
     /**
@@ -72,8 +74,22 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+
+        $order = Order::find($id);
+
+        if (!$order) {
+            notify()->error('Order not found');
+            return redirect()->back();
+        }
+
+        $order->delivery_status = $request->delivery_status;
+        $order->save();
+
+        notify()->success('Order updated successfully');
+        return redirect()->route('admin.order.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -82,7 +98,7 @@ class OrderController extends Controller
     {
         Order::where('id',$id)->delete();
 
-        notify()->success('rder deleted successfully');
+        notify()->success('order deleted successfully');
         return redirect()->back();
     }
 }
