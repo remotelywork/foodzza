@@ -23,7 +23,7 @@ class Food extends Model
         'status',
     ];
 
-    protected $casts = ['images'=>'json','complimentary_items'=>'json'];
+    protected $casts = ['images'=>'json','complimentary_items'=>'json','category'=>'json'];
 
     protected $table = 'foods';
 

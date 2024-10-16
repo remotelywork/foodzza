@@ -10,9 +10,9 @@
         <div class="page-title">
             <div class="container-fluid">
                 <div class="row justify-content-center">
-                    <div class="col-xl-8">
+                    <div class="col-xl-10">
                         <div class="title-content">
-                            <h2 class="title">{{ __('Edit order') }}</h2>
+                            <h2 class="title">{{ __('Order detail') }}</h2>
                             <a href="{{ url()->previous() }}" class="title-btn"><i
                                         icon-name="corner-down-left"></i>{{ __('Back') }}</a>
                         </div>
@@ -23,84 +23,108 @@
 
         <div class="container-fluid">
             <div class="row justify-content-center">
-                <div class="col-xl-8">
+                <div class="col-xl-10">
                     <div class="site-card">
                         <div class="site-card-body">
                             <form action="{{route('admin.order.update',$order->id)}}" method="post" enctype="multipart/form-data" class="row">
                                 @method('PUT')
                                 @csrf
 
-                                <div class="col-xl-6 schema-name">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('Order number:') }}</label>
-                                        <input type="text" name="name" value="{{ $order->order_number }}" class="box-input" readonly  required />
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 schema-badge">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('User name:') }}</label>
-                                        <input value="{{ $order->user->username }}" class="box-input" readonly/>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-xl-6 number-period">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('Promo code:') }}</label>
-                                        <div class="input-group joint-input">
-                                            <input type="text" name="promo_code" value="{{ $order->promo_code }}" class="form-control" readonly />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-6 number-period">
-                                    <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('Promo discount:') }}</label>
-                                        <div class="input-group joint-input">
-                                            <input type="text" name="promo_code" value="{{ $order->promo_discount }}" class="form-control" readonly />
-                                            <span class="input-group-text">{{ setting('site_currency','global') }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-6">
+                                <div class="col-xl-5">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Delivery Status:') }}</label>
                                         <select name="delivery_status" class="form-select" required>
                                             <option value="" disabled selected>{{ __('Select status') }}</option>
-                                                <option value="pending"  {{ $order->delivery_status == 'pending' ? 'selected' : '' }}>  {{ __('Pending') }}</option>
-                                                <option value="processing" {{ $order->delivery_status == 'processing' ? 'selected' : '' }}> {{ __('Processing') }}</option>
-                                                <option value="on_delivery" {{ $order->delivery_status == 'on_delivery' ? 'selected' : '' }}> {{ __('On delivery') }}</option>
-                                                <option value="delivered" {{ $order->delivery_status == 'delivered' ? 'selected' : '' }}> {{ __('Delivered') }}</option>
+                                            <option value="pending"  {{ $order->delivery_status == 'pending' ? 'selected' : '' }}>  {{ __('Pending') }}</option>
+                                            <option value="processing" {{ $order->delivery_status == 'processing' ? 'selected' : '' }}> {{ __('Processing') }}</option>
+                                            <option value="on_delivery" {{ $order->delivery_status == 'on_delivery' ? 'selected' : '' }}> {{ __('On delivery') }}</option>
+                                            <option value="delivered" {{ $order->delivery_status == 'delivered' ? 'selected' : '' }}> {{ __('Delivered') }}</option>
+                                            <option value="cancel" {{ $order->delivery_status == 'cancel' ? 'selected' : '' }}> {{ __('Cancel') }}</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6  cancel-expiry">
+                                <div class="col-xl-5">
                                     <div class="site-input-groups">
-                                        <label class="box-input-label"
-                                               for="">{{ __('Total Amount:') }}</label>
-                                        <div class="input-group joint-input">
-                                            <input type="text" value="{{ $order->total_amount }}" name="total_amount" class="form-control" readonly=""/>
-                                            <span class="input-group-text">{{ setting('site_currency','global') }}</span>
-                                        </div>
+                                        <label class="box-input-label" for="">{{ __('Assign Delivery Boy:') }}</label>
+                                        <select name=" " class="form-select" required>
+                                            <option value="" disabled selected>{{ __('Select status') }}</option>
+                                            <option value=""  {{ $order->delivery_status == 'pending' ? 'selected' : '' }}>  {{ __('Pending') }}</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        {{  $order->product_details }}
-                                    </div>
-                                    <div class="col-xl-6">
-                                        {{ $order->billing_details }}
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-12">
-                                    <button type="submit" class="site-btn-sm primary-btn w-100">
+                                <div class="col-xl-2">
+                                    <button  type="submit" class="site-btn-sm primary-btn mt-4">
                                         {{ __('Update') }}
                                     </button>
                                 </div>
                             </form>
+
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <?php
+                                            $biling_details = json_decode($order->billing_details)
+                                        ?>
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Name: {{ $biling_details->name }}</p>
+                                            <p style="margin-bottom: 0.1rem; font-size: 14px;">Email: {{ $biling_details->email }}</p>
+                                            <p style="margin-bottom: 0.1rem; font-size: 14px;"> Phone: {{ $biling_details->phone }}</p>
+                                            <p style="margin-bottom: 0.1rem; font-size: 14px;">Address: {{ $biling_details->address }}</p>
+                                            @if($biling_details->additional_msg)
+                                                <p style="margin-bottom: 0.1rem; font-size: 14px;"> Additional Message: {{ $biling_details->name }}</p>
+                                            @endif
+                                    </div>
+                                    <div class="col-xl-6" style="text-align: right; margin-bottom: 0%;">
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Order# {{ $order->order_number }}</p>
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Order status: {{ $order->delivery_status }}</p>
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Order Date: {{ $order->created_at }}</p>
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Total Amount: {{ $order->total_amount }}</p>
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Payment method: {{ $order->payment_method }}</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="site-table table-responsive mt-4 p-0">
+
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Complimentary Items</th>
+                                            <th scope="col">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @php
+                                            $items = json_decode($order->product_details);
+                                        @endphp
+
+                                        @foreach($items as $item)
+                                            <tr>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->quantity }}</td>
+                                                <td>
+                                                    @php
+                                                        $complimentary_items = json_decode($item->complimentary_items);
+                                                    @endphp
+                                                    @if(!empty($complimentary_items))
+                                                        @foreach($complimentary_items as $complimentary)
+                                                            <p style="margin-bottom: 0.01rem; font-size: 14px;">{{ $complimentary->name }} - {{ $currencySymbol }}{{ $complimentary->price }}</p>
+                                                        @endforeach
+                                                    @else
+                                                        <p>No Complimentary Items</p>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $currencySymbol }}{{ $item->total_price }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-xl-12" style="text-align: right; margin-bottom: 10px;">
+                                    <p>Sub Total: {{ $currencySymbol }}{{ $order->total_amount }}</p>
+                                </div>
                         </div>
                     </div>
                 </div>

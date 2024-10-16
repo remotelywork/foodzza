@@ -64,21 +64,20 @@
                                             </strong>
                                         </td>
                                         <td>
-                                            <button
-                                                class="round-icon-btn primary-btn"
-                                                type="button"
-                                                id="edit"
-                                                data-id="{{ $category->id }}">
+                                            <button class="round-icon-btn primary-btn" type="button" id="edit" data-id="{{ $category->id }}">
                                                 <i icon-name="edit-3"></i>
                                             </button>
-                                            <form action="{{ route('admin.food-category.destroy', $category->id) }}" method="POST" style="display: inline-block;">
+
+                                            <button type="button" class="round-icon-btn primary-btn" id="delete" data-id="{{ $category->id }}">
+                                                <i icon-name="delete"></i>
+                                            </button>
+
+                                            <form id="deleteForm{{ $category->id }}" action="{{ route('admin.food-category.destroy', $category->id) }}" method="POST" style="display: none;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="round-icon-btn primary-btn" id="delete" data-id="{{ $category->id }}">
-                                                    <i icon-name="delete"></i>
-                                                </button>
                                             </form>
                                         </td>
+
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -91,33 +90,77 @@
     </div>
     @include('backend.food_category.modal.__new_category')
     @include('backend.food_category.modal.__edit_category')
+    @include('backend.food_category.modal.__delete_category')
 </div>
 @endsection
 
 @section('script')
-<script>
-    $('body').on('click', '#edit', function(event) {
-        "use strict";
-        event.preventDefault();
-        var id = $(this).data('id');
+    <script>
+        $(document).ready(function () {
+            "use strict";
 
-        $.get('/admin/food-category/' + id + '/edit', function(data) {
+            // Show the edit modal when the edit button is clicked
+            $('body').on('click', '#edit', function (event) {
+                event.preventDefault();
+                var id = $(this).data('id');
 
-            var url = '{{ route("admin.food-category.update", ":id") }}';
-            url = url.replace(':id', id);
-            $('#editForm').attr('action', url);
+                $.get('/admin/food-category/' + id + '/edit', function (data) {
+                    var url = '{{ route("admin.food-category.update", ":id") }}';
+                    url = url.replace(':id', id);
+                    $('#editForm').attr('action', url);
 
-            // Populate the modal fields with data
-            $('#name').val(data.name);
-            $('select[name="status"]').val(data.status);
-            $('select[name="is_featured"]').val(data.is_featured);
+                    // Populate the modal fields with data
+                    $('#name').val(data.name);
+                    $('select[name="status"]').val(data.status);
+                    $('select[name="is_featured"]').val(data.is_featured);
 
-            $('label[for=editThumbImage]').addClass('file-ok');
-            $('label[for=editThumbImage]').css('background','url('+data.icon+')');
-            // Show the modal after data is populated
-            $('#editModal').modal('show');
+                    $('label[for=editThumbImage]').addClass('file-ok');
+                    $('label[for=editThumbImage]').css('background', 'url(' + data.icon + ')');
 
+                    // Show the modal
+                    $('#editModal').modal('show');
+                });
+            });
+
+            // Trigger delete confirmation modal
+            $('body').on('click', '#delete', function (event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                $('#deleteModal').modal('show');
+
+                // On confirm delete
+                $('#confirmDelete').off('click').on('click', function () {
+                    // Submit the form for deletion
+                    $('#deleteForm' + id).submit();
+                });
+            });
         });
-    });
-</script>
+    </script>
+    <script>
+        $(document).ready(function () {
+            "use strict";
+
+            // Trigger delete confirmation modal
+            $('body').on('click', '#delete', function (event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+
+                // Update the form action with the category ID
+                var formAction = '{{ route("admin.food-category.destroy", ":id") }}';
+                formAction = formAction.replace(':id', id);
+                $('#deleteForm').attr('action', formAction);
+
+                // Show the delete confirmation modal
+                $('#deleteConfirmationModal').modal('show');
+            });
+
+            // Confirm delete
+            $('#confirmDeleteBtn').on('click', function () {
+                // Submit the delete form
+                $('#deleteForm').submit();
+            });
+        });
+    </script>
+
+
 @endsection

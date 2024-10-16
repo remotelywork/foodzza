@@ -53,9 +53,9 @@
                                 <td><a href="{{ route('food.details', $food->item->id) }}">{{ $food->item->name }}</a></td>
                                 <td class="unit-price">
                                     @if($food->item->discount_price == null)
-                                        {{ $food->item->price }}
+                                        {{ $currencySymbol }}{{ $food->item->price }}
                                     @else
-                                        {{ $food->item->discount_price }}
+                                        {{ $currencySymbol }}{{ $food->item->discount_price }}
                                     @endif
                                 </td>
                                 <td>
@@ -72,9 +72,9 @@
 
                                 <td class="shipping-charge">
                                     @if($food->item->shipping_cost == null)
-                                        Free
+                                        Not applied
                                     @else
-                                        {{ $food->item->shipping_cost }}
+                                        {{ $currencySymbol }}{{ $food->item->shipping_cost }}
                                     @endif
                                 </td>
                                 <td>
@@ -82,14 +82,14 @@
                                     <p>Item Available: {{ $food->item->quantity }}</p>
                                 </td>
                                 <td class="total-price">
-                                    ${{ number_format($totalPrice, 2) }}
+                                    {{ $currencySymbol }}{{ number_format($totalPrice, 2) }}
                                 </td>
                                 <td><a href="{{ route('cart.delete', $food->id) }}"><i class="fas fa-times"></i></a></td>
                             </tr>
                         @endforeach
                         <tr class="text-right">
                             <td colspan="12">
-                                <button type="submit" href="{{ route('home') }}" class="bttn-small btn-fill">Continue Shopping</button>
+                                <a type="submit" href="{{ route('home') }}" class="bttn-small btn-fill">{{ __('Continue Shopping') }}</a>
                             </td>
                         </tr>
                         </tbody>

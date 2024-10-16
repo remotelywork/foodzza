@@ -27,7 +27,7 @@ class FoodController extends Controller
                 $query->search($search);
             })
             ->when($foodCat, function ($query, $foodCat) {
-                $query->where('category', $foodCat);
+                $query->whereJsonContains('category', $foodCat);
             })
             ->latest()
             ->paginate(10);
@@ -52,6 +52,7 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'thumb_image' => 'required|image|mimes:jpg,png,svg',
             'name' => 'required',
@@ -83,7 +84,7 @@ class FoodController extends Controller
             'price' => $input['price'],
             'discount_price' => $input['discount_price'] == 0 ? null : $input['discount_price'],
             'discount_validity' => $input['discount_validity'],
-            'category' => json_encode($input['category']),
+            'category' => $input['category'],
             'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
             'quantity' => $input['quantity'],
             'status' => $input['status'],
@@ -115,6 +116,7 @@ class FoodController extends Controller
     {
         $food_detail = Food::where('id', $id)->first();
         $foodCategories = FoodCategory::all();
+
         return view('backend.food.edit', compact('food_detail', 'foodCategories'));
     }
 
@@ -163,6 +165,42 @@ class FoodController extends Controller
         // Reindex the array after removing the images
         $galleryImages = array_values($galleryImages);
 
+        // Handle complimentary items
+        $complimentaryItems = [];
+
+        // Get existing items that have been updated
+        if (!empty($input['existing_fields'])) {
+            foreach ($input['existing_fields'] as $key => $existingItem) {
+                $complimentaryItems[] = [
+                    'name' => $existingItem['name'],
+                    'price' => $existingItem['price'],
+                ];
+            }
+        }
+
+        // Add new items
+        if (!empty($input['fields'])) {
+            foreach ($input['fields'] as $newItem) {
+                $complimentaryItems[] = [
+                    'name' => $newItem['name'],
+                    'price' => $newItem['price'],
+                ];
+            }
+        }
+
+        // Remove deleted complimentary items
+        if (!empty($input['deleted_items'])) {
+            $deletedItems = explode(',', rtrim($input['deleted_items'], ','));
+            foreach ($deletedItems as $deletedKey) {
+                if (isset($complimentaryItems[$deletedKey])) {
+                    unset($complimentaryItems[$deletedKey]);
+                }
+            }
+
+            // Reindex the array after removing the items
+            $complimentaryItems = array_values($complimentaryItems);
+        }
+
         // Handle the update data
         $data = [
             'thumb_image' => $request->hasFile('thumb_image') ? self::imageUploadTrait($input['thumb_image']) : $foodItem->thumb_image,
@@ -176,6 +214,7 @@ class FoodController extends Controller
             'status' => $input['status'],
             'overview' => $input['overview'],
             'images' => !empty($galleryImages) ? $galleryImages : null, // Save images if present
+            'complimentary_items' => $complimentaryItems,
         ];
 
         $foodItem->update($data);
@@ -183,6 +222,7 @@ class FoodController extends Controller
         notify()->success('Item updated successfully');
         return redirect()->route('admin.food-item.index');
     }
+
 
 
 

@@ -77,24 +77,16 @@
                                     </div>
                                 </div>
 
-                                {{--<div class="col-xl-6">--}}
-                                    {{--<div class="site-input-groups">--}}
-                                        {{--<label class="box-input-label" for="">{{ __('Select Category:') }}</label>--}}
-                                        {{--<select name="category" class="form-select" required>--}}
-                                            {{--<option value="" disabled selected>{{ __('Select category') }}</option>--}}
-                                            {{--@foreach($foodCategories as $foodCategory)--}}
-                                                {{--<option value="{{ $foodCategory->id }}" @if($food_detail->category == $foodCategory->id ) selected @endif> {{ $foodCategory->name }} </option>--}}
-                                            {{--@endforeach--}}
-                                        {{--</select>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
                                 <div class="col-xl-6">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Select Category:') }}</label>
                                         <select id="choices-multiple-remove-button" name="category[]" class="form-select" placeholder="select category" multiple required>
-                                            <option value="" disabled >{{ __('Select category') }}</option>
+                                            <option value="" disabled>{{ __('Select category') }}</option>
                                             @foreach($foodCategories as $foodCategory)
-                                                <option value="{{ $foodCategory->id }}"> {{ $foodCategory->name }} </option>
+                                                <option value="{{ $foodCategory->id }}"
+                                                        {{ in_array($foodCategory->id, $food_detail->category) ? 'selected' : '' }}>
+                                                    {{ $foodCategory->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -224,27 +216,27 @@
             $("#generate").on('click', function () {
                 ++i;
                 var form = `
-        <div class="col-xl-12 mb-4 new-option">
-            <div class="option-remove-row row">
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="site-input-groups">
-                        <input name="fields[` + i + `][name]" class="box-input" type="text" value="" placeholder="Item Name">
-                    </div>
-                </div>
+                        <div class="col-xl-12 mb-4 new-option">
+                            <div class="option-remove-row row">
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="site-input-groups">
+                                        <input name="fields[` + i + `][name]" class="box-input" type="text" value="" placeholder="Item Name">
+                                    </div>
+                                </div>
 
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="site-input-groups">
-                        <input name="fields[` + i + `][price]" class="box-input" type="number" value="" placeholder="Price">
-                    </div>
-                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="site-input-groups">
+                                        <input name="fields[` + i + `][price]" class="box-input" type="number" value="" placeholder="Price">
+                                    </div>
+                                </div>
 
-                <div class="col-xl-1 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <button class="delete-option-row delete_desc" type="button">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        </div>`;
+                                <div class="col-xl-1 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <button class="delete-option-row delete_desc" type="button">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`;
                 $('.addOptions').append(form);
             });
 
@@ -319,7 +311,6 @@
             renderChoiceLimit: 7
         });
     </script>
-
 
 @endsection
 

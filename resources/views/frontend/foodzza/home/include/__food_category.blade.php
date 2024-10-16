@@ -26,7 +26,7 @@
                     <div class="tab-pane fade @if($key == 0) show active @endif" id="tab-{{ $key }}" role="tabpanel" aria-labelledby="tab-{{ $key }}-tab">
                         <div class="row">
                             @php
-                                $foods = App\Models\Food::where('category',$category->id)->get();
+                                $foods = App\Models\Food::whereJsonContains('category',(string) $category->id)->get();
                             @endphp
                             @foreach($foods as $food)
                                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
@@ -35,11 +35,11 @@
                                             <a href="{{ route('food.details',$food->id) }}">
                                                 <img src="{{ asset($food->thumb_image) }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                                             </a>
-                                            <div class="wishlist"><a href="" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-heart"></i></a></div>
+                                            <div class="wishlist"><a href="{{ route('add-to-cart', $food->id) }}" ><i class="fas fa-heart"></i></a></div>
                                         </div>
                                         <div class="item-details">
                                             <div class="restaurant-name-location">
-                                                <a href="category.html"><i class="fas fa-hamburger"></i>{{ $food->foodCategory->name }}</a>
+                                                <a href="#">{{ $food->foodCategory->name }}</a>
                                             </div>
                                             <div class="title">
                                                 <h3><a href="{{ route('food.details',$food->id) }}">{{ $food->name }}</a></h3>

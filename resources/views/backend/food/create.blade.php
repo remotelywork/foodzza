@@ -167,7 +167,7 @@
             $("#generate").on('click', function () {
                 ++i;
                 var form = `<div class="mb-4">
-                  <div class="option-remove-row row">
+                  <div class="option-remove-row row ">
                     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12">
                       <div class="site-input-groups">
                         <input name="fields[` + i + `][name]" class="box-input" type="text" value="" placeholder="Item Name">

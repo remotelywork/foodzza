@@ -24,7 +24,7 @@ class OrderController extends Controller
                 $query->search($search);
             })
             ->when($foodCat, function ($query, $foodCat) {
-                $query->where('category', $foodCat);
+                $query->whereJsonContains('category', $foodCat);
             })
             ->latest()
             ->paginate(10);
@@ -74,8 +74,6 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-
         $order = Order::find($id);
 
         if (!$order) {

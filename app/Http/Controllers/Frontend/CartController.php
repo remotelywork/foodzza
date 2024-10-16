@@ -18,13 +18,14 @@ class CartController extends Controller
         $cart->product_id = $food->id;
         $cart->quantity = 1;
         $cart->total_price = $food->discount_price ? : $food->price;
-        $cart->complimentary_item = $food->complimentary_item;
+        $cart->complimentary_item = $food->complimentary_item ?? null;
         $cart->promo_code = null;
         $cart->promo_discount = null;
         $cart->shipping_cost = $food->shipping_cost ?? null;
         $cart->save();
 
-        notify()->success('Item added to the cart');
+
+        notify()->success(__('Item added to the cart'));
 
         return redirect()->back();
     }
@@ -73,12 +74,9 @@ class CartController extends Controller
         ]);
 
 
-        notify()->success('Item added to the cart');
+        notify()->success(__('Item added to the cart'));
         return redirect()->back()->with('success', 'Item added to cart successfully!');
     }
-
-
-
 
 
     public function Carts()

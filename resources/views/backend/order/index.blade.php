@@ -31,15 +31,7 @@
                                     </div>
                                     <button type="submit" class="apply-btn ms-2"><i data-lucide="search"></i>{{ __('Search') }}</button>
                                 </div>
-                                <div class="filter d-flex">
-                                    <select class="form-select form-select-sm me-2" name="filter_by_category" aria-label=".form-select-sm example">
-                                        <option value="" selected>{{ __('Filter By Category') }}</option>
-                                        @foreach($foodCategories as $category)
-                                            <option value="{{ $category->id }}" {{ request('filter_by_category') == $category->id ? 'selected' : '' }}>{{ __($category->name) }}</option>
-                                        @endforeach
-                                    </select>
 
-                                </div>
                             </div>
                         </form>
                         <table class="table">

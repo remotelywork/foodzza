@@ -44,5 +44,4 @@ class Order extends Model
         }
         return $query;
     }
-
 }

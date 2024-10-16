@@ -53,20 +53,13 @@
                                     $items = json_decode($order->product_details);
                                 @endphp
                                 <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Item Name</th>
-                                        <th>Quantity</th>
-                                        <th>Total Amount</th>
-                                        <th>Complementary Items</th>
-                                    </tr>
-                                    </thead>
+
                                     <tbody>
                                     @foreach($items as $item)
                                         <tr>
                                             <td>{{ $item->name }}</td>
-                                            <td>{{ $item->quantity }}</td>
-                                            <td>{{ $currencySymbol }}{{ $item->total_price }}</td>
+                                            {{--<td>{{ $item->quantity }}</td>--}}
+                                            {{--<td>{{ $currencySymbol }}{{ $item->total_price }}</td>--}}
                                             <td>
                                                 @php
                                                     $complementaryItems = json_decode($item->complimentary_items);
@@ -78,7 +71,7 @@
                                                         @endforeach
                                                     </ul>
                                                 @else
-                                                    No complementary items
+                                                    No items
                                                 @endif
                                             </td>
                                         </tr>
@@ -86,7 +79,6 @@
                                     </tbody>
                                 </table>
                              </td>
-
                             <td>{{ $order->quantity }}</td>
                             <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
                             <td>{{ $order->delivery_status }}</td>

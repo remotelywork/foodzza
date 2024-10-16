@@ -51,7 +51,8 @@
                                 <th>{{ __('Thumbnail') }}</th>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Category') }}</th>
-                                <th>{{ __('Price') }}</th>
+                                <th>{{ __('Main price') }}</th>
+                                <th>{{ __('Discount Price') }}</th>
                                 <th>{{ __('Quantity') }}</th>
                                 <th>{{ __('Delivery Cost') }}</th>
                                 <th>{{ __('Status') }}</th>
@@ -63,8 +64,14 @@
                                 <tr>
                                     <td><img style="max-width: 35px" src="{{ asset($foodItem->thumb_image) }}"></td>
                                     <td>{{ $foodItem->name }}</td>
-                                    <td>{{ $foodItem->foodCategory->name ?? 'uncategorized'  }}</td>
+                                    <td>
+                                        @php
+                                            $categories = \App\Models\FoodCategory::whereIn('id', $foodItem->category)->pluck('name')->toArray();
+                                        @endphp
+                                        {{ $categories ? implode(', ', $categories) : 'Uncategorized' }}
+                                    </td>
                                     <td>{{ $currencySymbol }}{{ $foodItem->price }}</td>
+                                    <td>{{ $currencySymbol }}{{ $foodItem->discount_price }}</td>
                                     <td>{{ $foodItem->quantity }}</td>
                                     <td>
                                         @if($foodItem->shipping_cost == null)
