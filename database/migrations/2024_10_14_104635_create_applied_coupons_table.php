@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('coupon_id');
             $table->string('amount');
+            $table->string('order_number')->default();
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

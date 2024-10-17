@@ -38,8 +38,18 @@ Route::post('mail-send', [PageController::class, 'mailSend'])->name('mail-send')
 
 // User Part
 Route::group(['middleware' => ['auth', '2fa', 'isActive', setting('otp_verification', 'permission') ? 'otp' : 'web', setting('email_verification', 'permission') ? 'verified' : 'web'], 'prefix' => 'user', 'as' => 'user.'], function () {
-    // Dashboard
-    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+
+    Route::get('add-to-cart/{id}',[CartController::class,'AddToCart'])->name('add-to-cart');
+    Route::post('add-to-cart-with-details/{id}',[CartController::class,'addToCartWithDetails'])->name('add-to-cart.with-details');
+    Route::get('carts',[CartController::class,'carts'])->name('carts');
+    Route::get('cart-delete/{id}',[CartController::class,'Delete'])->name('cart.delete');
+    Route::post('update-cart',[CartController::class,'updateCart'])->name('cart.update');
+    Route::get('checkout',[CheckoutController::class,'checkout'])->name('checkout');
+    Route::post('promo-apply',[PromoCodeController::class,'promoApply'])->name('promo.apply');
+    Route::post('order-place',[OrderController::class,'create'])->name('order.place');
+    Route::get('dashboard',[DashboardController::class,'orders'])->name('dashboard');
+
 
     // Subscription
     Route::prefix('subscriptions')->controller(SubscriptionController::class)->group(function(){
@@ -198,18 +208,5 @@ Route::get('site-cron', [CronJobController::class, 'runCronJobs'])->name('cron.j
 
 Route::get('/',[HomeController::class,'FoodzzaHome'])->name('home');
 Route::get('product-details/{id}',[FoodController::class,'productDetails'])->name('food.details');
-Route::get('add-to-cart/{id}',[CartController::class,'AddToCart'])->name('add-to-cart');
-Route::post('add-to-cart-with-details/{id}',[CartController::class,'addToCartWithDetails'])->name('add-to-cart.with-details');
-Route::get('carts',[CartController::class,'carts'])->name('carts');
-Route::get('cart-delete/{id}',[CartController::class,'Delete'])->name('cart.delete');
 
 
-Route::post('update-cart',[CartController::class,'updateCart'])->name('cart.update');
-
-
-Route::get('checkout',[CheckoutController::class,'checkout'])->name('checkout');
-
-Route::post('promo-apply',[PromoCodeController::class,'promoApply'])->name('promo.apply');
-
-Route::post('order-place',[OrderController::class,'create'])->name('order.place');
- Route::get('user/dashboard',[DashboardController::class,'orders'])->name('user.dashboard');

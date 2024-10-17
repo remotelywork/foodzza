@@ -21,12 +21,9 @@
                 <ul class="navbar-nav m-auto">
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="{{ route('home') }}" role="button"  aria-expanded="false">Home</a>
-                        {{--<ul class="dropdown-menu">--}}
-                            {{--<li><a class="dropdown-item" href="index.html">Restaurant Landing</a></li>--}}
-                            {{--<li><a class="dropdown-item" href="index-2.html">Restaurant Shop</a></li>--}}
-                        {{--</ul>--}}
+
                     </li>
-                    <!-- <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li> -->
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-expanded="false">Shop</a>
                         <ul class="dropdown-menu">
@@ -90,7 +87,7 @@
                         <a href="{{ route('login') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Login</a>
                 @endif
 
-                    <a href="{{ route('carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>{{ cartCount() }}</span></a>
+                    <a href="{{ route('user.carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>{{ cartCount() }}</span></a>
                 </div>
 
             </div>

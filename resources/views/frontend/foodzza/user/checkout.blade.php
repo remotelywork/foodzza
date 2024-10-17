@@ -33,7 +33,7 @@
                                             <span>You have already applied {{ $coupon_code }} this coupon</span>
                                             @else
                                             <span>If you have a coupon code, please apply it below.</span>
-                                            <form action="{{ route('promo.apply') }}" method="POST">
+                                            <form action="{{ route('user.promo.apply') }}" method="POST">
                                                 @csrf
                                                 <input type="text" name="code" placeholder="Coupon code" required>
                                                 <button type="submit" class="bttn-small btn-fill-2">Apply</button>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('order.place') }}" method="POST">
+            <form action="{{ route('user.order.place') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-6">

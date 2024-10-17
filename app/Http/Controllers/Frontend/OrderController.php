@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppliedCoupon;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +14,7 @@ class OrderController extends Controller
 {
     public function create(Request $request)
     {
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -50,7 +53,6 @@ class OrderController extends Controller
 
         $billing_details = $request->only(['name', 'address', 'phone', 'email', 'additional_msg']);
 
-
         Order::create([
             'order_number' => $order_number,
             'user_id' => Auth::id(),
@@ -64,6 +66,11 @@ class OrderController extends Controller
             'payment_method' => $request->payment,
             'txn_id' => null,
         ]);
+
+        $promo_code = AppliedCoupon::where('user_id',Auth::id())->where('status', 0)->first();
+        $promo_code->status = 1;
+        $promo_code->save();
+
 
         Cart::where('user_id', Auth::id())->delete();
 

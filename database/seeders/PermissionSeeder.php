@@ -192,7 +192,6 @@ class PermissionSeeder extends Seeder
             ['category' => 'System Management', 'name' => 'application-details'],
 
 
-            ['category' => 'Order Management', 'name' => 'order-delivery'],
         ];
 
         foreach ($permissions as $permission) {

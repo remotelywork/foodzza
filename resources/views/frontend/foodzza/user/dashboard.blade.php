@@ -45,51 +45,54 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($orders as $order)
-                        <tr>
-                            <td>{{ $order->order_number }}</td>
-                            <td>
-                                @php
-                                    $items = json_decode($order->product_details);
-                                @endphp
-                                <table class="table">
-
-                                    <tbody>
-                                    @foreach($items as $item)
-                                        <tr>
-                                            <td>{{ $item->name }}</td>
-                                            {{--<td>{{ $item->quantity }}</td>--}}
-                                            {{--<td>{{ $currencySymbol }}{{ $item->total_price }}</td>--}}
-                                            <td>
-                                                @php
-                                                    $complementaryItems = json_decode($item->complimentary_items);
-                                                @endphp
-                                                @if(!empty($complementaryItems))
-                                                    <ul>
-                                                        @foreach($complementaryItems as $complementary)
-                                                            <li>{{ $complementary->name }} - {{ $currencySymbol }}{{ $complementary->price }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                @else
-                                                    No items
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                             </td>
-                            <td>{{ $order->quantity }}</td>
-                            <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
-                            <td>{{ $order->delivery_status }}</td>
-                            <td>Nantu</td>
-                        </tr>
-                        @endforeach
+                        @if($orders->isEmpty())
+                            <tr>
+                                <td colspan="6" class="text-center">No Orders Found</td>
+                            </tr>
+                        @else
+                            @foreach($orders as $order)
+                                <tr>
+                                    <td>{{ $order->order_number }}</td>
+                                    <td>
+                                        @php
+                                            $items = json_decode($order->product_details);
+                                        @endphp
+                                        <table class="table">
+                                            <tbody>
+                                            @foreach($items as $item)
+                                                <tr>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>
+                                                        @php
+                                                            $complementaryItems = json_decode($item->complimentary_items);
+                                                        @endphp
+                                                        @if(!empty($complementaryItems))
+                                                            <ul>
+                                                                @foreach($complementaryItems as $complementary)
+                                                                    <li>{{ $complementary->name }} - {{ $currencySymbol }}{{ $complementary->price }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @else
+                                                            No items
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>{{ $order->quantity }}</td>
+                                    <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
+                                    <td>{{ $order->delivery_status }}</td>
+                                    <td>Nantu</td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
-
                     </table>
                 </div>
             </div>
+
         </div>
     </div>
 </section>

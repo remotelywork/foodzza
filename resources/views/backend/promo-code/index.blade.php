@@ -41,7 +41,7 @@
                             <tr>
                                 <th>{{ __('Name') }}</th>
                                 <th>{{ __('Code') }}</th>
-                                <th>{{ __('Discount Type') }}</th>
+                                {{--<th>{{ __('Discount Type') }}</th>--}}
                                 <th>{{ __('Amount') }}</th>
                                 <th>{{ __('Validity') }}</th>
                                 <th>{{ __('Status') }}</th>
@@ -54,8 +54,8 @@
 
                                     <td>{{ $promoCode->name }}</td>
                                     <td>{{ $promoCode->code }}</td>
-                                    <td>{{ $promoCode->discount_type }}</td>
-                                    <td>{{ $promoCode->amount }}</td>
+                                    {{--<td>{{ $promoCode->discount_type }}</td>--}}
+                                    <td>{{ $currencySymbol }}{{ $promoCode->amount }}</td>
                                     <td>{{ $promoCode->validity }}  </td>
                                     <td>
                                         @if($promoCode->status == 1)

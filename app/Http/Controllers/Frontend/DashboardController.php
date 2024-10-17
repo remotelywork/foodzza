@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
     public function orders()
     {
-        $orders = Order::where('user_id',Auth::id())->where('delivery_status', '!=', 'delivered')->get();
+        $orders = Order::where('user_id',Auth::id())->get();
 
         return view('frontend.foodzza.user.dashboard',compact('orders'));
     }

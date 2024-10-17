@@ -35,12 +35,22 @@
                                             <a href="{{ route('food.details',$food->id) }}">
                                                 <img src="{{ asset($food->thumb_image) }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                                             </a>
-                                            <div class="wishlist"><a href="{{ route('add-to-cart', $food->id) }}" ><i class="fas fa-heart"></i></a></div>
+                                            <div class="wishlist"><a href="{{ route('user.add-to-cart', $food->id) }}" ><i class="fas fa-heart"></i></a></div>
                                         </div>
                                         <div class="item-details">
                                             <div class="restaurant-name-location">
-                                                <a href="#">{{ $food->foodCategory->name }}</a>
+                                                @php
+                                                    $categoryIds = $food->category;
+
+                                                    // Retrieve the actual category models using the IDs
+                                                    $categories = App\Models\FoodCategory::whereIn('id', $categoryIds)->get();
+                                                @endphp
+
+                                                @foreach($categories as $category)
+                                                    <a href="#">{{ $category->name }}</a>
+                                                @endforeach
                                             </div>
+
                                             <div class="title">
                                                 <h3><a href="{{ route('food.details',$food->id) }}">{{ $food->name }}</a></h3>
                                             </div>
@@ -53,7 +63,7 @@
                                                 @else
                                                     <div class="price">{{ $currencySymbol }}{{ $food->price }} </div>
                                                 @endif
-                                                    <a href="{{ route('add-to-cart', $food->id) }}"
+                                                    <a href="{{ route('user.add-to-cart', $food->id) }}"
                                                        class="bttn-small btn-fill" @if(!\Illuminate\Support\Facades\Auth::check())
                                                        onclick="event.preventDefault(); alert('You must be logged in to add items to the cart.'); window.location.href='{{ route('login') }}';"
                                                             @endif >

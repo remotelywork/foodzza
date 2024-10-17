@@ -26,7 +26,7 @@
                 <div class="col-xl-8">
                     <div class="site-card">
                         <div class="site-card-body">
-                            <form action="{{route('admin.promo-code.store')}}" method="post" enctype="multipart/form-data" class="row">
+                            <form action="{{route('admin.promo-code.store')}}" method="post" enctype="multipart/form-data" class="row site-input-groups">
                                 @csrf
                                 <div class="col-xl-6 schema-name">
                                     <div class="site-input-groups">
@@ -41,17 +41,17 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6">
-                                    <div class="site-input-groups row">
-                                        <div class="col-xl-12">
-                                            <label class="box-input-label" for="">{{ __('Discount Type:') }}</label>
-                                            <select name="discount_type" class="form-select" required>
-                                                <option value="fixed">{{ __('Fixed') }}</option>
-                                                <option value="percentage">{{ __('Percentage') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{--<div class="col-xl-6">--}}
+                                    {{--<div class="site-input-groups row">--}}
+                                        {{--<div class="col-xl-12">--}}
+                                            {{--<label class="box-input-label" for="">{{ __('Discount Type:') }}</label>--}}
+                                            {{--<select name="discount_type" class="form-select" required>--}}
+                                                {{--<option value="fixed">{{ __('Fixed') }}</option>--}}
+                                                {{--<option value="percentage">{{ __('Percentage') }}</option>--}}
+                                            {{--</select>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="col-xl-6 number-period">
                                     <div class="site-input-groups">
@@ -68,6 +68,7 @@
                                                for="">{{ __('Amount:') }}</label>
                                         <div class="input-group joint-input">
                                             <input type="number" placeholder="Amount" name="amount" class="form-control"/>
+                                            <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                         </div>
                                     </div>
                                 </div>

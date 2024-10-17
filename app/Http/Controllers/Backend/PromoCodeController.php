@@ -8,6 +8,7 @@ use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use function Symfony\Component\Mime\Header\all;
 
 class PromoCodeController extends Controller
 {
@@ -46,7 +47,6 @@ class PromoCodeController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'code' => 'required',
-            'discount_type' => 'required',
             'discount_validity' => 'required',
             'amount' => 'required|int',
             'status' => 'required',
@@ -61,7 +61,7 @@ class PromoCodeController extends Controller
         PromoCode::create([
             'name' => $input['name'],
             'code' => $input['code'],
-            'discount_type' => $input['discount_type'],
+            'discount_type' => $input['discount_type'] ?? null,
             'validity' => $input['discount_validity'],
             'amount' => $input['amount'],
             'status' => $input['status'],
@@ -97,7 +97,6 @@ class PromoCodeController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'code' => 'required',
-            'discount_type' => 'required',
             'discount_validity' => 'required',
             'amount' => 'required|int',
             'status' => 'required',
@@ -112,7 +111,7 @@ class PromoCodeController extends Controller
         $promoCode->update([
             'name' => $input['name'],
             'code' => $input['code'],
-            'discount_type' => $input['discount_type'],
+            'discount_type' => $input['discount_type'] ?? null,
             'validity' => $input['discount_validity'],
             'amount' => $input['amount'],
             'status' => $input['status'],
@@ -157,6 +156,7 @@ class PromoCodeController extends Controller
             'user_id' => Auth::id(),
             'coupon_id' => $validity->id,
             'amount' => $validity->amount,
+            'order_number' => null,
             'status' => false,
         ]);
 

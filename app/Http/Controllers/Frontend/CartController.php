@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Food;
+use function Illuminate\Session\userId;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,6 @@ class CartController extends Controller
         $cart->promo_discount = null;
         $cart->shipping_cost = $food->shipping_cost ?? null;
         $cart->save();
-
 
         notify()->success(__('Item added to the cart'));
 
@@ -118,5 +118,24 @@ class CartController extends Controller
         ], 404);
     }
 
+
+    public function updateCart(Request $request)
+    {
+
+        // Correct query to get the cart item for the user and product
+        $cart = Cart::where('id', $request->food_id)->first();
+
+        // Check if the cart item exists before updating
+        if ($cart) {
+            $cart->update([
+                'quantity' => $request->quantity,
+                'total_price' => $request->total_price,
+            ]);
+            return response()->json(['msg' => 'Cart updated successfully']);
+        }
+
+        // Return an error if the cart item is not found
+        return response()->json(['msg' => 'Cart item not found'], 404);
+    }
 
 }

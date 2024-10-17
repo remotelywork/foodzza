@@ -42,17 +42,17 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-6">
-                                    <div class="site-input-groups row">
-                                        <div class="col-xl-12">
-                                            <label class="box-input-label" for="">{{ __('Discount Type:') }}</label>
-                                            <select name="discount_type" class="form-select" required>
-                                                <option value="fixed" @if($promoCode->discount_type == 'fixed') selected @endif>{{ __('Fixed') }}</option>
-                                                <option value="percentage" @if($promoCode->discount_type == 'percentage') selected @endif>{{ __('Percentage') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{--<div class="col-xl-6">--}}
+                                    {{--<div class="site-input-groups row">--}}
+                                        {{--<div class="col-xl-12">--}}
+                                            {{--<label class="box-input-label" for="">{{ __('Discount Type:') }}</label>--}}
+                                            {{--<select name="discount_type" class="form-select" required>--}}
+                                                {{--<option value="fixed" @if($promoCode->discount_type == 'fixed') selected @endif>{{ __('Fixed') }}</option>--}}
+                                                {{--<option value="percentage" @if($promoCode->discount_type == 'percentage') selected @endif>{{ __('Percentage') }}</option>--}}
+                                            {{--</select>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <div class="col-xl-6 number-period">
                                     <div class="site-input-groups">
@@ -68,7 +68,8 @@
                                         <label class="box-input-label"
                                                for="">{{ __('Amount:') }}</label>
                                         <div class="input-group joint-input">
-                                            <input type="number" value="{{ $promoCode->amount }}" name="amount" class="form-control"/>
+                                            <input value="{{ $promoCode->amount }}" name="amount" class="form-control"/>
+                                            <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                         </div>
                                     </div>
                                 </div>

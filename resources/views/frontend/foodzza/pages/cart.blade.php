@@ -11,7 +11,8 @@
             </div>
         </div>
     </div>
-</section><!--Custom Banner-->
+</section>
+<!--Custom Banner-->
 
 <!--Cart area-->
 <section class="section-padding gray-bg-2">
@@ -33,6 +34,11 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @if($carts->isEmpty())
+                            <tr>
+                                <td colspan="6" class="text-center">No Orders Found</td>
+                            </tr>
+                        @else
                         @foreach($carts as $food)
                             @php
                                 $complimentaryItems = json_decode($food['complimentary_item'], true);
@@ -62,7 +68,7 @@
                                     @if($complimentaryItems && is_array($complimentaryItems))
                                         <ul>
                                             @foreach($complimentaryItems as $item)
-                                                <li>{{ $item['name'] }}: ${{ $item['price'] }}</li>
+                                                <li>{{ $item['name'] }}: <span class="complimentary-item-price">{{ $currencySymbol }}{{ $item['price'] }}</span></li>
                                             @endforeach
                                         </ul>
                                     @else
@@ -84,9 +90,10 @@
                                 <td class="total-price">
                                     {{ $currencySymbol }}{{ number_format($totalPrice, 2) }}
                                 </td>
-                                <td><a href="{{ route('cart.delete', $food->id) }}"><i class="fas fa-times"></i></a></td>
+                                <td><a href="{{ route('user.cart.delete', $food->id) }}"><i class="fas fa-times"></i></a></td>
                             </tr>
                         @endforeach
+                        @endif
                         <tr class="text-right">
                             <td colspan="12">
                                 <a type="submit" href="{{ route('home') }}" class="bttn-small btn-fill">{{ __('Continue Shopping') }}</a>
@@ -118,7 +125,7 @@
                                 <p>Total</p>
                                 <p class="cart-amount" id="total">$0.00</p> <!-- Updated ID -->
                             </div>
-                            <a href="{{ route('checkout') }}" class="bttn-small btn-fill">Proceed to Checkout</a>
+                            <a href="{{ route('user.checkout') }}" class="bttn-small btn-fill">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>
@@ -152,11 +159,13 @@
                     input.value = 1; // Set to minimum 1
                 }
 
-                // Update the total price of this row and send AJAX request
+                // Update the total price of this row
                 const totalPrice = updateCartTotal(foodId, input.value);
+
+                // Update overall cart totals (subtotal and total)
                 updateCartTotals();
 
-                // AJAX request to update the cart quantity and total price
+                // AJAX request to update the cart quantity and total price in the backend
                 updateCartQuantity(foodId, quantity, totalPrice);
             });
         });
@@ -164,7 +173,7 @@
         // Function to send AJAX request to update cart quantity and total
         function updateCartQuantity(foodId, quantity, totalPrice) {
             $.ajax({
-                url: '{{ route("cart.update") }}',  // Your route for updating cart
+                url: '{{ route("user.cart.update") }}',  // Your route for updating cart
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',  // CSRF Token
@@ -183,49 +192,50 @@
             });
         }
 
-        // Function to update the total price for each item
+        // Function to update the total price for each item row
         function updateCartTotal(foodId, quantity) {
             const row = document.querySelector(`#quantity-${foodId}`).closest('tr');
-            const unitPrice = parseFloat(row.querySelector('.unit-price').textContent.replace('$', '').trim());
-            const complimentaryItems = row.querySelectorAll('.complimentary-item-price');
+            const unitPrice = parseFloat(row.querySelector('.unit-price').textContent.replace('{{ $currencySymbol }}', '').trim());
+            const complimentaryItems = row.querySelectorAll('.complimentary-item-price'); // Add this class to the complimentary items' prices
             let complimentaryItemsTotal = 0;
 
             // Calculate complimentary items total (multiply price by quantity)
             complimentaryItems.forEach(function(item) {
-                complimentaryItemsTotal += parseFloat(item.textContent.replace('$', '').trim());
+                complimentaryItemsTotal += parseFloat(item.textContent.replace('{{ $currencySymbol }}', '').trim());
             });
 
-            const shippingCost = parseFloat(row.querySelector('.shipping-charge').textContent.replace('$', '').trim()) || 0;
+            const shippingCost = parseFloat(row.querySelector('.shipping-charge').textContent.replace('{{ $currencySymbol }}', '').trim()) || 0;
 
             // Calculate total price for this item
             const totalPrice = (unitPrice * quantity) + (complimentaryItemsTotal * quantity) + shippingCost;
-            row.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
+            row.querySelector('.total-price').textContent = `{{ $currencySymbol }}${totalPrice.toFixed(2)}`;
 
             return totalPrice;  // Return the total price to update in the database
         }
 
-        // Function to update the subtotal and total
+        // Function to update the subtotal and total for the entire cart
         function updateCartTotals() {
             let subtotal = 0;
             let shippingTotal = 0;
 
             // Loop through each row and sum the total prices
             document.querySelectorAll('.total-price').forEach(function(item) {
-                subtotal += parseFloat(item.textContent.replace('$', '').trim());
+                subtotal += parseFloat(item.textContent.replace('{{ $currencySymbol }}', '').trim());
             });
 
             // Sum the shipping charges
             document.querySelectorAll('.shipping-charge').forEach(function(item) {
-                shippingTotal += parseFloat(item.textContent.replace('$', '').trim()) || 0;
+                shippingTotal += parseFloat(item.textContent.replace('{{ $currencySymbol }}', '').trim()) || 0;
             });
 
-            const total = subtotal + shippingTotal;
+            const total = subtotal;  // In this case, subtotal includes everything (complimentary items, shipping)
 
-            // Update the subtotal and total fields
-            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+            // Update the subtotal and total fields in the cart summary section
+            document.getElementById('subtotal').textContent = `{{ $currencySymbol }}${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `{{ $currencySymbol }}${total.toFixed(2)}`;
         }
     });
+
 
 </script>
 

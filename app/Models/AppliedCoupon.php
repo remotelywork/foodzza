@@ -13,6 +13,7 @@ class AppliedCoupon extends Model
         'user_id',
         'coupon_id',
         'amount',
+        'order_number',
         'status',
     ];
 

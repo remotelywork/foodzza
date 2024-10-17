@@ -44,7 +44,7 @@
             </div>
 
             <div class="col-xl-5 col-md-5 col-sm-12">
-                <form action="{{ route('add-to-cart.with-details', $food_details->id) }}" method="POST">
+                <form action="{{ route('user.add-to-cart.with-details', $food_details->id) }}" method="POST">
                     <div class="product-details-content">
                         <h2>{{ $food_details->name }}</h2>
                         <div class="brand">
