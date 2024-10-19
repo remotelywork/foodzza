@@ -241,7 +241,7 @@
                 <div class="account-form">
                     <div class="via-login">
                         <a href="" class="facebook-bg"><i class="fab fa-facebook-f"></i></a>
-                        <a href="" class="google-plus-bg"><i class="fab fa-google"></i></a>
+                        <a href="{{ route('google.redirect') }}" class="google-plus-bg"><i class="fab fa-google"></i></a>
                         <a href="" class="linkedin-bg"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <form action="#">

@@ -203,6 +203,7 @@ return [
         App\Providers\SettingServiceProvider::class,
         App\Providers\PluginServiceProvider::class,
         App\Providers\ThemeServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -225,6 +226,7 @@ return [
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ])->toArray(),
 
 ];

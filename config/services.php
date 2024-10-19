@@ -39,5 +39,16 @@ return [
         'channel' => env('PAYTM_CHANNEL'),
         'industry_type' => env('PAYTM_INDUSTRY_TYPE'),
     ],
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URL'),
+    ],
+
+    'facebook' => [
+    'client_id' =>  env('FACEBOOK_CLIENT_ID'),
+    'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+    'redirect' =>   env('FACEBOOK_CLIENT_REDIERECT')
+    ]
 
 ];

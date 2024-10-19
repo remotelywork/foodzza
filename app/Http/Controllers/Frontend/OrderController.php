@@ -76,7 +76,7 @@ class OrderController extends Controller
 
 
         notify()->success('Your order has been placed successfully');
-        return redirect()->route('home')->with('success', 'Order placed successfully!');
+        return redirect()->route('dashboard')->with('success', 'Order placed successfully!');
     }
 
 }

@@ -99,7 +99,6 @@
 @include('frontend.foodzza.include.__footer')
 
 
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 @include('frontend.foodzza.include.__script')
 </body>

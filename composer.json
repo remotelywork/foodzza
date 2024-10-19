@@ -24,6 +24,7 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.2",
+        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.7",
         "mews/purifier": "^3.3",
         "mollie/laravel-mollie": "^2.0",
