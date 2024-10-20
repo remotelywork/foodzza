@@ -75,6 +75,7 @@ class RoleController extends Controller
     {
         $permissions = Permission::get()->groupBy('category');
 
+        dd($permissions);
         return view('backend.roles.create', compact('permissions'));
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\FoodCategory;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -65,6 +66,8 @@ class OrderController extends Controller
     {
 
         $order = Order::find($id);
+
+        $delivery_boy =Admin::with('permisssions',) ;
 
         return view('backend.order.edit',compact('order'));
     }

@@ -48,7 +48,7 @@
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="">{{ __('Assign Delivery Boy:') }}</label>
                                         <select name=" " class="form-select" required>
-                                            <option value="" disabled selected>{{ __('Select status') }}</option>
+                                            <option value="" disabled selected>{{ __('Select delivery boy') }}</option>
                                             <option value=""  {{ $order->delivery_status == 'pending' ? 'selected' : '' }}>  {{ __('Pending') }}</option>
                                         </select>
                                     </div>

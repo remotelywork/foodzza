@@ -117,6 +117,10 @@ class PermissionSeeder extends Seeder
             ['category' => 'System Management', 'name' => 'cron-job-run'],
             ['category' => 'System Management', 'name' => 'clear-cache'],
             ['category' => 'System Management', 'name' => 'application-details'],
+
+            ['category' => 'Order Management', 'name' => 'order-manage'],
+            ['category' => 'Order Management', 'name' => 'order-delivery'],
+
         ];
 
         foreach ($permissions as $permission) {
