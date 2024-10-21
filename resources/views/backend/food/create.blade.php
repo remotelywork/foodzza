@@ -61,7 +61,7 @@
                                 <div class="col-xl-6 ">
                                     <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
                                     <div class="input-group joint-input">
-                                        <input type="text" name="discount_price"  class="form-control" required />
+                                        <input type="text" name="discount_price"  class="form-control" />
                                         <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                 <div class="col-xl-6 ">
                                     <label class="box-input-label" for="">{{ __('Shipping Price:') }}</label>
                                     <div class="input-group joint-input">
-                                        <input type="text" name="shipping_cost"  class="form-control" required />
+                                        <input type="text" name="shipping_cost"  class="form-control" />
                                         <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
@@ -231,12 +231,8 @@
         });
     </script>
 
-
-
-
     <script src="{{ asset('backend/js/choices.min.js') }}"></script>
     <script>
-
         (function ($) {
             'use strict';
 

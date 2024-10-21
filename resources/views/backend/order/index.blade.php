@@ -13,7 +13,6 @@
                     <div class="col">
                         <div class="title-content">
                             <h2 class="title">{{ __($title) }}</h2>
-
                         </div>
                     </div>
                 </div>
@@ -31,7 +30,6 @@
                                     </div>
                                     <button type="submit" class="apply-btn ms-2"><i data-lucide="search"></i>{{ __('Search') }}</button>
                                 </div>
-
                             </div>
                         </form>
                         <table class="table">
@@ -54,11 +52,15 @@
                                     <td>{{ $order->order_number }}</td>
                                     <td>{{ $order->user->username }}</td>
                                     <td>{{ $order->quantity }}</td>
-                                    <td>{{ $order->promo_code }}</td>
+                                    <td>
+                                        @if($order->promo_code == null)
+                                            N/A
+                                        @else
+                                        {{ $order->promo_code }}</td>
+                                        @endif
                                     <td>{{ $currencySymbol }}{{ $order->promo_discount }}</td>
                                     <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
                                     <td>
-
                                         @if($order->delivery_status == "pending")
                                             <div class="site-badge success">{{ __('Pending') }}</div>
                                         @elseif($order->delivery_status == 'processing')
@@ -75,13 +77,15 @@
                                            data-id="{{ $order->id }}" >
                                             <i icon-name="edit-3"></i>
                                         </a>
-                                        <form action="{{ route('admin.order.destroy', $order->id) }}" method="POST" style="display: inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="round-icon-btn primary-btn" id="delete" data-id="{{ $order->id }}">
-                                                <i icon-name="delete"></i>
-                                            </button>
-                                        </form>
+                                        @can(['order-manage'])
+                                            <form action="{{ route('admin.order.destroy', $order->id) }}" method="POST" style="display: inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="round-icon-btn primary-btn" id="delete" data-id="{{ $order->id }}">
+                                                    <i icon-name="delete"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
                                     </td>
                                 </tr>
                             @empty

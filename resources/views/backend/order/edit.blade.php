@@ -44,15 +44,22 @@
                                     </div>
                                 </div>
 
+                                @can(['order-manage'])
                                 <div class="col-xl-5">
                                     <div class="site-input-groups">
-                                        <label class="box-input-label" for="">{{ __('Assign Delivery Boy:') }}</label>
-                                        <select name=" " class="form-select" required>
-                                            <option value="" disabled selected>{{ __('Select delivery boy') }}</option>
-                                            <option value=""  {{ $order->delivery_status == 'pending' ? 'selected' : '' }}>  {{ __('Pending') }}</option>
+                                        <label class="box-input-label" for="delivery_boy">{{ __('Assign Delivery Man:') }}</label>
+                                        <select name="delivery_man" class="form-select" required>
+                                            <option value=""  selected>{{ __('Select delivery man') }}</option>
+                                            @foreach($delivery_mans as $delivery_man)
+                                                <option value="{{ $delivery_man->id }}" {{ $delivery_man->id == $order->delivery_man ? 'selected' : '' }}>
+                                                    {{ $delivery_man->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
+                                @endcan
+
                                 <div class="col-xl-2">
                                     <button  type="submit" class="site-btn-sm primary-btn mt-4">
                                         {{ __('Update') }}

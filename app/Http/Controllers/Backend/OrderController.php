@@ -7,6 +7,7 @@ use App\Models\Admin;
 use App\Models\FoodCategory;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -17,8 +18,27 @@ class OrderController extends Controller
     {
         $search = $request->query('query') ?? null;
         $foodCat = $request->query('filter_by_category') ?? null;
+        $title = "Order List";
 
         $foodCategories = FoodCategory::all();
+
+        $userName = Auth::user()->name;
+
+        if($userName != 'Super Admin'){
+            $orders = Order::query()
+                ->when($search, function ($query, $search) {
+                    $query->search($search);
+                })
+                ->when($foodCat, function ($query, $foodCat) {
+                    $query->whereJsonContains('category', $foodCat);
+                })
+                ->where('delivery_man', Auth::id())
+                ->latest()
+                ->paginate(10);
+
+            return view('backend.order.index',compact('orders','foodCategories','title'));
+        }
+
 
         $orders = Order::query()
             ->when($search, function ($query, $search) {
@@ -29,8 +49,6 @@ class OrderController extends Controller
             })
             ->latest()
             ->paginate(10);
-
-        $title = "Order List";
 
         return view('backend.order.index',compact('orders','foodCategories','title'));
     }
@@ -67,9 +85,11 @@ class OrderController extends Controller
 
         $order = Order::find($id);
 
-        $delivery_boy =Admin::with('permisssions',) ;
+        $delivery_mans = Admin::with('roles')->whereHas('roles',function ($rolesQuery){
+            return $rolesQuery->where('name','Delivery-Man');
+        })->get() ;
 
-        return view('backend.order.edit',compact('order'));
+        return view('backend.order.edit',compact('order','delivery_mans'));
     }
 
     /**
@@ -77,6 +97,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $order = Order::find($id);
 
         if (!$order) {
@@ -84,7 +105,17 @@ class OrderController extends Controller
             return redirect()->back();
         }
 
+        $userName = Auth::user()->name;
+        if ($userName != 'Super Admin'){
+            $order->delivery_status = $request->delivery_status;
+            $order->delivery_man = Auth::id();
+            $order->save();
+
+            notify()->success('Order updated successfully');
+            return redirect()->route('admin.order.index');
+        }
         $order->delivery_status = $request->delivery_status;
+        $order->delivery_man = $request->delivery_man;
         $order->save();
 
         notify()->success('Order updated successfully');

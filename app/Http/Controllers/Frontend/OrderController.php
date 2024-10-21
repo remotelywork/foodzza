@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\AppliedCoupon;
 use App\Models\Cart;
+use App\Models\Food;
 use App\Models\Order;
 use App\Models\PromoCode;
 use Illuminate\Http\Request;
@@ -29,9 +30,7 @@ class OrderController extends Controller
         }
         $order_number = strtoupper(bin2hex(random_bytes(4)));
 
-
         $cart_items = Cart::where('user_id', Auth::id())->get();
-
 
         $product_details = $cart_items->mapWithKeys(function ($item, $index) {
             return [
@@ -45,7 +44,6 @@ class OrderController extends Controller
             ];
         })->toArray();
         $total_quantity = $cart_items->sum('quantity');
-
 
         $promo_code = $request->code ?? null;
         $promo_discount = $request->coupon_amount ?? 0;
@@ -67,16 +65,31 @@ class OrderController extends Controller
             'txn_id' => null,
         ]);
 
-        $promo_code = AppliedCoupon::where('user_id',Auth::id())->where('status', 0)->first();
-        $promo_code->status = 1;
-        $promo_code->save();
+        $productDetails = $product_details;
+        foreach ($productDetails as $product) {
+            $productId = $product['product_id'];
+            $quantityToSubtract = $product['quantity'];
 
+            $productModel = Food::find($productId);
+
+            if ($productModel) {
+                $productModel->quantity -= $quantityToSubtract;
+
+                $productModel->save();
+            }
+        }
+
+        $promo_code = AppliedCoupon::where('user_id',Auth::id())->where('status', 0)->first();
+        if ($promo_code) {
+            $promo_code->status = 1;
+            $promo_code->save();
+        }
 
         Cart::where('user_id', Auth::id())->delete();
 
 
         notify()->success('Your order has been placed successfully');
-        return redirect()->route('dashboard')->with('success', 'Order placed successfully!');
+        return redirect()->route('user.dashboard')->with('success', 'Order placed successfully!');
     }
 
 }

@@ -18,6 +18,7 @@ class Order extends Model
         'promo_discount',
         'billing_details',
         'delivery_status',
+        'delivery_man',
         'total_amount',
         'payment_method',
         'txn_id',
@@ -36,6 +37,7 @@ class Order extends Model
                     ->orWhere('promo_code', 'LIKE', '%' . $search . '%')
                     ->orWhere('billing_details', 'LIKE', '%' . $search . '%')
                     ->orWhere('delivery_status', 'LIKE', '%' . $search . '%')
+                    ->orWhere('delivery_man', 'LIKE', '%' . $search . '%')
                     ->orWhere('payment_method', 'LIKE', '%' . $search . '%')
                     ->orWhereHas('user', function ($query) use ($search) {
                         $query->where('username', 'LIKE', '%' . $search . '%');

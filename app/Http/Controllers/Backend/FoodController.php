@@ -82,10 +82,11 @@ class FoodController extends Controller
             'thumb_image' => self::imageUploadTrait($input['thumb_image']),
             'name' => $input['name'],
             'price' => $input['price'],
-            'discount_price' => $input['discount_price'] == 0 ? null : $input['discount_price'],
-            'discount_validity' => $input['discount_validity'],
+            'discount_price' => !empty($input['discount_price']) && $input['discount_price'] != 0 ? $input['discount_price'] : null,
+            'discount_validity' => !empty($input['discount_validity']) ? $input['discount_validity'] : null,
             'category' => $input['category'],
-            'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
+//            'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
+            'shipping_cost' => !empty($input['shipping_cost']) ? $input['shipping_cost'] : null,
             'quantity' => $input['quantity'],
             'status' => $input['status'],
             'overview' => $input['overview'],
@@ -94,7 +95,6 @@ class FoodController extends Controller
         ];
 
         Food::create($data);
-
 
         notify()->success('Item created successfully');
 

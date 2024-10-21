@@ -84,7 +84,16 @@
                                     <td>{{ $order->quantity }}</td>
                                     <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
                                     <td>{{ $order->delivery_status }}</td>
-                                    <td>Nantu</td>
+                                    <?php
+                                    $delivery_man = \App\Models\Admin::where('id', $order->delivery_man)->first();
+                                    ?>
+                                    <td>
+                                        @if($delivery_man == null)
+                                            {{ __('not assigned')  }}
+                                        @else
+                                        {{ $delivery_man->name }}
+                                            @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         @endif

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('promo_discount')->default(0);
             $table->json('billing_details');
             $table->string('delivery_status');
+            $table->foreignId('delivery_man')->nullable();
             $table->string('total_amount');
             $table->string('payment_method');
             $table->string('txn_id')->nullable();

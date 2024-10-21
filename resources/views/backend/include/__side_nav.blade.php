@@ -117,7 +117,7 @@
 
 
             {{-- ************************************************************* Order Management *********************************************************--}}
-            @canany(['role-list','role-create','role-edit','staff-list','staff-create','staff-edit'])
+            @canany(['order-manage','order-delivery'])
                 <li class="side-nav-item category-title">
                     <span>{{ __('Order Management') }}</span>
                 </li>
@@ -126,7 +126,7 @@
                                 data-lucide="users"></i><span>{{ __('Order Management') }}</span>
                         <span class="right-arrow"><i data-lucide="chevron-down"></i></span></a>
                     <ul class="dropdown-items">
-                        @canany(['role-list','role-create','role-edit'])
+                        @canany(['order-manage','order-delivery'])
                             <li class="{{ isActive('admin.order*') }}">
                                 <a href="{{route('admin.order.index')}}"><i data-lucide="contact"></i><span>{{ __('Orders List')
                                 }}</span></a>
