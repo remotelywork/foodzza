@@ -37,7 +37,7 @@
                                                 <div class="wrap-custom-file">
                                                     <input type="file" name="thumb_image" value="{{ $food_detail->thumb_image }}" id="thumbImage" accept=".gif, .jpg, .png" />
                                                     <label for="thumbImage">
-                                                        <img class="upload-icon" src="{{ asset($food_detail->thumb_image) }}" alt="" />
+                                                        <img class="" src="{{ asset($food_detail->thumb_image) }}" alt="" />
                                                         <span>{{ __('Upload Thumbnail') }}</span>
                                                     </label>
                                                 </div>
@@ -62,7 +62,7 @@
                                 <div class="col-xl-6 ">
                                     <label class="box-input-label" for="">{{ __('Discount Price:') }}</label>
                                     <div class="input-group joint-input">
-                                        <input type="text" name="discount_price" value="{{ $food_detail->discount_price }}"   class="form-control" required />
+                                        <input type="text" name="discount_price" value="{{ $food_detail->discount_price }}"   class="form-control" />
                                         <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@
                                 <div class="col-xl-6 ">
                                     <label class="box-input-label" for="">{{ __('Delivery Cost:') }}</label>
                                     <div class="input-group joint-input">
-                                        <input type="text" value="{{ $food_detail->shipping_cost }}" name="shipping_cost"  class="form-control" required />
+                                        <input type="text" value="{{ $food_detail->shipping_cost }}" name="shipping_cost"  class="form-control" />
                                         <span class="input-group-text">{{ setting('site_currency','global') }}</span>
                                     </div>
                                 </div>
@@ -154,8 +154,6 @@
                                     @endif
                                 </div>
                                 <input type="hidden" name="deleted_items" id="deletedItems" value="">
-
-
 
                                 <div class="col-xl-3">
                                     <a href="javascript:void(0)" id="generateImage"

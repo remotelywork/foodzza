@@ -85,7 +85,6 @@ class FoodController extends Controller
             'discount_price' => !empty($input['discount_price']) && $input['discount_price'] != 0 ? $input['discount_price'] : null,
             'discount_validity' => !empty($input['discount_validity']) ? $input['discount_validity'] : null,
             'category' => $input['category'],
-//            'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
             'shipping_cost' => !empty($input['shipping_cost']) ? $input['shipping_cost'] : null,
             'quantity' => $input['quantity'],
             'status' => $input['status'],
@@ -142,17 +141,14 @@ class FoodController extends Controller
         $foodItem = Food::findOrFail($id);
         $input = $request->all();
 
-        // Retrieve existing images
         $galleryImages = is_array($foodItem->images) ? $foodItem->images : [];
 
-        // Process new images
         if ($request->hasFile('galleries')) {
             foreach ($request->file('galleries') as $image) {
                 $galleryImages[] = self::imageUploadTrait($image);
             }
         }
 
-        // Remove deleted images
         if (!empty($input['deleted_images'])) {
             $deletedImages = explode(',', rtrim($input['deleted_images'], ','));
             foreach ($deletedImages as $deletedImage) {
@@ -201,15 +197,14 @@ class FoodController extends Controller
             $complimentaryItems = array_values($complimentaryItems);
         }
 
-        // Handle the update data
         $data = [
             'thumb_image' => $request->hasFile('thumb_image') ? self::imageUploadTrait($input['thumb_image']) : $foodItem->thumb_image,
             'name' => $input['name'],
             'price' => $input['price'],
-            'discount_price' => $input['discount_price'] == 0 ? null : $input['discount_price'],
-            'discount_validity' => $input['discount_validity'],
+            'discount_price' => !empty($input['discount_price']) && $input['discount_price'] != 0 ? $input['discount_price'] : null,
+            'discount_validity' => !empty($input['discount_validity']) ? $input['discount_validity'] : null,
             'category' => $input['category'],
-            'shipping_cost' => $input['shipping_cost'] == 0 ? null : $input['shipping_cost'],
+            'shipping_cost' => !empty($input['shipping_cost']) ? $input['shipping_cost'] : null,
             'quantity' => $input['quantity'],
             'status' => $input['status'],
             'overview' => $input['overview'],

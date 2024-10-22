@@ -19,3 +19,23 @@
 
 <script src="{{ asset('frontend/default/js/cartsidebar.js') }}"></script>
 <script src="{{ asset('frontend/default/js/script.js') }}"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded',function () {
+        const successAlert = document.getElementById('success-alert');
+        const failedAlert = document.getElementById('failed-alert')
+        if (successAlert){
+           setTimeout(function () {
+               successAlert.style.display = 'none';
+           },3000)
+        }
+        if (failedAlert){
+            setTimeout(function () {
+                failedAlert.style.display = 'none'
+            },3000)
+        }
+    })
+</script>
+@notifyCss
+@notifyJs

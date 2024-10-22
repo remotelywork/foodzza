@@ -20,6 +20,15 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="coupon-accordion">
                         <div class="accordion" id="accordionExample">
+                            @if(session('success'))
+                                <div class="alert alert-success" id="success-alert">
+                                    {{ session('success') }}
+                                </div>
+                            @elseif(session('failed'))
+                                <div class="alert alert-danger" id="failed-alert">
+                                    {{ session('failed') }}
+                                </div>
+                            @endif
                             <div class="card">
                                 <div class="card-header" id="headingOne">
                                     Have a coupon?
@@ -142,5 +151,23 @@
 @include('frontend.foodzza.include.__footer')
 @include('frontend.foodzza.include.__script')
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const successAlert = document.getElementById('success-alert');
+        const failedAlert = document.getElementById('failed-alert');
+
+        if (successAlert) {
+            setTimeout(function () {
+                successAlert.style.display = 'none';
+            }, 3000);
+        }
+        if (failedAlert){
+            setTimeout(function () {
+                failedAlert.style.display = 'none';
+            },3000)
+        }
+
+    });
+</script>
 </body>
 </html>

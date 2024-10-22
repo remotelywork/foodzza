@@ -71,14 +71,20 @@
                                         {{ $categories ? implode(', ', $categories) : 'Uncategorized' }}
                                     </td>
                                     <td>{{ $currencySymbol }}{{ $foodItem->price }}</td>
-                                    <td>{{ $currencySymbol }}{{ $foodItem->discount_price }}</td>
+                                    <td>
+                                        @if($foodItem->discount_price == null)
+                                            N/A
+                                        @else
+                                            {{ $currencySymbol }}{{ $foodItem->discount_price }}
+                                        @endif
+                                    </td>
                                     <td>{{ $foodItem->quantity }}</td>
                                     <td>
                                         @if($foodItem->shipping_cost == null)
                                             N/A
                                         @else
-                                            {{ $foodItem->shipping_cost }}
-                                            @endif
+                                            {{ $currencySymbol }}{{ $foodItem->shipping_cost }}
+                                        @endif
                                     </td>
                                     <td>
                                         @if($foodItem->status == 1)

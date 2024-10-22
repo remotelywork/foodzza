@@ -134,14 +134,13 @@ class PromoCodeController extends Controller
 
     public function promoApply(Request $request)
     {
-
         $validity = PromoCode::where('code', $request->code)
             ->where('validity', '>=', now())
             ->first();
 
         if (!$validity) {
 
-            return redirect()->back()->with('Failed', 'Invalid or expired promo code.');
+            return redirect()->back()->with('failed', 'Invalid or expired promo code.');
         }
 
         $appliedOrNot = AppliedCoupon::where('user_id', Auth::id())
@@ -149,7 +148,7 @@ class PromoCodeController extends Controller
             ->exists();
 
         if ($appliedOrNot) {
-            return redirect()->back()->with('Failed', 'Promo code already applied.');
+            return redirect()->back()->with('failed', 'Promo code already applied.');
         }
 
         AppliedCoupon::create([
@@ -162,5 +161,4 @@ class PromoCodeController extends Controller
 
         return redirect()->back()->with('success', 'Promo code applied successfully.');
     }
-
 }

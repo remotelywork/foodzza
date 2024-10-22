@@ -89,8 +89,17 @@
 
                     <a href="{{ route('user.carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>{{ cartCount() }}</span></a>
                 </div>
-
             </div>
         </div>
+        @if(session('success'))
+            <div class="alert alert-success" id="success-alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('failed'))
+            <div class="alert alert-danger" id="failed-alert">
+                {{session('failed')}}
+            </div>
+        @endif
     </nav>
 </header><!--/Header Area-->

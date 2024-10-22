@@ -27,15 +27,13 @@ class CartController extends Controller
 
         notify()->success(__('Item added to the cart'));
 
-        return redirect()->back();
+        return redirect()->back()->with('success','item added to cart successfully');
     }
 
 
     public function addToCartWithDetails(Request $request, $id)
     {
-
         $food = Food::where('id', $id)->first();
-
 
         $this->validate($request, [
             'quantity' => 'required|integer|min:1|max:' . $food->quantity,
@@ -43,15 +41,11 @@ class CartController extends Controller
             'complimentary_item.*' => 'string'
         ]);
 
-
         $quantity = $request->input('quantity');
         $complimentaryItems = $request->input('complimentary_item', []);
-
-
         $complimentaryItemsData = [];
         $totalPrice = $food->discount_price ? $food->discount_price : $food->price;
         $totalPrice *= $quantity;
-
 
         foreach ($complimentaryItems as $item) {
             $decodedItem = json_decode($item, true);
@@ -59,11 +53,9 @@ class CartController extends Controller
             $totalPrice += $decodedItem['price'];
         }
 
-
         if ($food->shipping_cost !== null) {
             $totalPrice += $food->shipping_cost;
         }
-
 
         Cart::create([
             'user_id' => Auth::user()->id,
@@ -73,9 +65,8 @@ class CartController extends Controller
             'complimentary_item' => json_encode($complimentaryItemsData)
         ]);
 
-
         notify()->success(__('Item added to the cart'));
-        return redirect()->back()->with('success', 'Item added to cart successfully!');
+        return redirect()->route('user.carts')->with('success', 'Item added to cart successfully!');
     }
 
 

@@ -101,7 +101,6 @@
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
@@ -131,7 +130,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </section><!--/Cart area-->
 
@@ -235,8 +233,6 @@
             document.getElementById('total').textContent = `{{ $currencySymbol }}${total.toFixed(2)}`;
         }
     });
-
-
 </script>
 
 </body>

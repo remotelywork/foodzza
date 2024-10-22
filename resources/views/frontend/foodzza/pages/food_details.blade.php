@@ -54,7 +54,7 @@
                             @if(($food_details->discount_price != null) && ($food_details->discount_validity > \Carbon\Carbon::now()) )
                                 <div class="base-price" data-base-price="{{ $food_details->discount_price }}">
                                     {{ $currencySymbol }}<span id="displayed-price">{{ $food_details->discount_price }}</span>
-                                    <del>{{ $currencySymbol }}{{ $food_details->price }}</del>
+                                    <del>{{ $currencySymbol }}<span id="original-price">{{ $food_details->price }}</span></del>
                                 </div>
                             @else
                                 <div class="base-price" data-base-price="{{ $food_details->price }}">
@@ -149,13 +149,14 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 @include('frontend.foodzza.include.__script')
 <script>
-
     document.addEventListener('DOMContentLoaded', function () {
         const quantityInput = document.getElementById('quantity-input');
         const minusButton = document.querySelector('.quantity__minus');
         const plusButton = document.querySelector('.quantity__plus');
         const displayedPrice = document.getElementById('displayed-price');
+        const originalPrice = document.getElementById('original-price'); // Original price element
         const basePrice = parseFloat(document.querySelector('.base-price').getAttribute('data-base-price'));
+        const originalBasePrice = parseFloat(originalPrice ? originalPrice.textContent : basePrice); // Original price value
         const complimentaryItems = document.querySelectorAll('.complimentary-item');
         const maxQuantity = {{ $food_details->quantity }}; // Available stock
 
@@ -165,18 +166,22 @@
 
             // Calculate the base price with quantity
             let totalPrice = basePrice * quantity;
+            let totalOriginalPrice = originalBasePrice * quantity; // Calculate original price with quantity
 
             // Add the prices of selected complimentary items
             complimentaryItems.forEach(item => {
                 if (item.checked) {
-                    // Parse the JSON value of the checkbox and add the price
                     const itemData = JSON.parse(item.value);
                     totalPrice += parseFloat(itemData.price);
+                    totalOriginalPrice += parseFloat(itemData.price);
                 }
             });
 
-            // Update displayed price
+            // Update displayed price and original price
             displayedPrice.textContent = totalPrice.toFixed(2);
+            if (originalPrice) {
+                originalPrice.textContent = totalOriginalPrice.toFixed(2); // Update the original price
+            }
         }
 
         // Handle minus button click
@@ -184,7 +189,7 @@
             event.preventDefault();
             let quantity = parseInt(quantityInput.value);
             if (quantity > 1) {
-                quantity--
+                quantity--;
                 quantityInput.value = quantity;
                 updateTotalPrice();
             }
@@ -206,7 +211,6 @@
 
         updateTotalPrice();
     });
-
 </script>
 
 </body>

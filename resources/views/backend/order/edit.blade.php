@@ -61,33 +61,35 @@
                                 @endcan
 
                                 <div class="col-xl-2">
-                                    <button  type="submit" class="site-btn-sm primary-btn mt-4">
+                                    <button type="submit" class="site-btn-sm primary-btn mt-4">
                                         {{ __('Update') }}
+                                    </button>
+                                </div>
+                                <div class="col-xl-2">
+                                    <button type="button" class="site-btn-sm primary-btn mt-4" onclick="printOrder()">
+                                        {{ __('Print') }}
                                     </button>
                                 </div>
                             </form>
 
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <?php
-                                            $biling_details = json_decode($order->billing_details)
-                                        ?>
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Name: {{ $biling_details->name }}</p>
-                                            <p style="margin-bottom: 0.1rem; font-size: 14px;">Email: {{ $biling_details->email }}</p>
-                                            <p style="margin-bottom: 0.1rem; font-size: 14px;"> Phone: {{ $biling_details->phone }}</p>
-                                            <p style="margin-bottom: 0.1rem; font-size: 14px;">Address: {{ $biling_details->address }}</p>
-                                            @if($biling_details->additional_msg)
-                                                <p style="margin-bottom: 0.1rem; font-size: 14px;"> Additional Message: {{ $biling_details->name }}</p>
-                                            @endif
-                                    </div>
-                                    <div class="col-xl-6" style="text-align: right; margin-bottom: 0%;">
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Order# {{ $order->order_number }}</p>
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Order status: {{ $order->delivery_status }}</p>
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Order Date: {{ $order->created_at }}</p>
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Total Amount: {{ $order->total_amount }}</p>
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;">Payment method: {{ $order->payment_method }}</p>
-                                    </div>
-
+                            <div class="row" id="printableArea">
+                                <div class="col-xl-6">
+                                    <?php
+                                        $biling_details = json_decode($order->billing_details)
+                                    ?>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Name: {{ $biling_details->name }}</p>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Email: {{ $biling_details->email }}</p>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;"> Phone: {{ $biling_details->phone }}</p>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Address: {{ $biling_details->address }}</p>
+                                    @if($biling_details->additional_msg)
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;"> Additional Message: {{ $biling_details->name }}</p>
+                                    @endif
+                                </div>
+                                <div class="col-xl-6" style="text-align: right; margin-bottom: 0%;">
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Order# {{ $order->order_number }}</p>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Order Date: {{ $order->created_at }}</p>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Total Amount: {{ $order->total_amount }}</p>
+                                    <p style="margin-bottom: 0.1rem; font-size: 14px;">Payment method: {{ $order->payment_method }}</p>
                                 </div>
 
                                 <div class="site-table table-responsive mt-4 p-0">
@@ -140,3 +142,15 @@
     </div>
 @endsection
 
+<script>
+function printOrder() {
+    var printContents = document.getElementById('printableArea').innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+}
+</script>

@@ -16,13 +16,6 @@
 <!--My Orders-->
 <section class="section-padding gray-bg">
     <div class="container-fluid">
-        {{--<div class="row">--}}
-            {{--<div class="col-xl-8">--}}
-                {{--<div class="section-title">--}}
-                    {{--<h2>{{ __('My Orders') }}</h2>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div>--}}
         <div class="row">
             <div class="col-xl-3 col-sm-6">
                 <div class="back-sidemenu">
@@ -31,6 +24,7 @@
                     </ul>
                 </div>
             </div>
+
             <div class="col-xl-9 col-md-12">
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -107,8 +101,8 @@
 </section>
 @include('frontend.foodzza.include.__footer')
 
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 @include('frontend.foodzza.include.__script')
+
 </body>
 </html>

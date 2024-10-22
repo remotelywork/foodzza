@@ -62,11 +62,11 @@
                                     <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
                                     <td>
                                         @if($order->delivery_status == "pending")
-                                            <div class="site-badge success">{{ __('Pending') }}</div>
+                                            <div class="site-badge pending">{{ __('Pending') }}</div>
                                         @elseif($order->delivery_status == 'processing')
-                                            <div class="site-badge success">{{ __('Processing') }}</div>
+                                            <div class="site-badge pending">{{ __('Processing') }}</div>
                                         @elseif($order->delivery_status == 'on_delivery')
-                                            <div class="site-badge success">{{ __('On Delivery') }}</div>
+                                            <div class="site-badge pending">{{ __('On Delivery') }}</div>
                                         @elseif($order->delivery_status == 'delivered')
                                             <div class="site-badge success">{{ __('Delivered') }}</div>
                                         @endif
