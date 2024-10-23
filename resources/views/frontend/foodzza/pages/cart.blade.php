@@ -84,7 +84,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    {{--<a href="#" class="quantity__minus"><span>-</span></a>--}}
                                     <input min="1" max="{{ $food->item->quantity }}" name="quantity" value="{{ $food->quantity }}" type="number" class="quantity-input" id="quantity-{{ $food->id }}">
+                                    {{--<a href="#" class="quantity__plus"><span>+</span></a>--}}
                                     <p>Item Available: {{ $food->item->quantity }}</p>
                                 </td>
                                 <td class="total-price">

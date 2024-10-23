@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('billing_details');
             $table->string('delivery_status');
             $table->foreignId('delivery_man')->nullable();
+            $table->string('message')->nullable();
             $table->string('total_amount');
             $table->string('payment_method');
             $table->string('txn_id')->nullable();

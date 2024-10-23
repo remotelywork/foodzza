@@ -77,8 +77,30 @@
                                     </td>
                                     <td>{{ $order->quantity }}</td>
                                     <td>{{ $currencySymbol }}{{ $order->total_amount }}</td>
-                                    <td>{{ $order->delivery_status }}</td>
-                                    <?php
+                                    <td>
+                                        @switch($order->delivery_status)
+                                            @case('pending')
+                                            <div class="badge bg-warning text-dark">{{ __('Pending') }}</div>
+                                            @break
+
+                                            @case('processing')
+                                            <div class="badge bg-primary">{{ __('Processing') }}</div>
+                                            @break
+
+                                            @case('on_delivery')
+                                            <div class="badge bg-info text-dark">{{ __('On Delivery') }}</div>
+                                            @break
+
+                                            @case('delivered')
+                                            <div class="badge bg-success">{{ __('Delivered') }}</div>
+                                            @break
+
+                                            @default
+                                            <div class="badge bg-secondary">{{ __('Unknown Status') }}</div>
+                                        @endswitch
+                                    </td>
+
+                                <?php
                                     $delivery_man = \App\Models\Admin::where('id', $order->delivery_man)->first();
                                     ?>
                                     <td>

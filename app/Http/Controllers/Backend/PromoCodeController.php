@@ -116,7 +116,7 @@ class PromoCodeController extends Controller
             'amount' => $input['amount'],
             'status' => $input['status'],
         ]);
-        notify()->success('Promo Code updated Successfully');
+        notify()->success('Coupon Code updated Successfully');
         return redirect()->route('admin.promo-code.index');
     }
 
@@ -140,7 +140,7 @@ class PromoCodeController extends Controller
 
         if (!$validity) {
 
-            return redirect()->back()->with('failed', 'Invalid or expired promo code.');
+            return redirect()->back()->with('failed', 'Invalid or expired coupon code.');
         }
 
         $appliedOrNot = AppliedCoupon::where('user_id', Auth::id())
@@ -148,7 +148,7 @@ class PromoCodeController extends Controller
             ->exists();
 
         if ($appliedOrNot) {
-            return redirect()->back()->with('failed', 'Promo code already applied.');
+            return redirect()->back()->with('failed', 'Coupon code already applied.');
         }
 
         AppliedCoupon::create([
@@ -159,6 +159,6 @@ class PromoCodeController extends Controller
             'status' => false,
         ]);
 
-        return redirect()->back()->with('success', 'Promo code applied successfully.');
+        return redirect()->back()->with('success', 'Coupon code applied successfully.');
     }
 }

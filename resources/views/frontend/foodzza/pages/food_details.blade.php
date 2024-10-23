@@ -143,11 +143,8 @@
 </section><!-- /Related Items -->
 
 @include('frontend.foodzza.include.__footer')
-
-
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 @include('frontend.foodzza.include.__script')
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const quantityInput = document.getElementById('quantity-input');

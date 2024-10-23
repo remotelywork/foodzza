@@ -108,6 +108,7 @@ class OrderController extends Controller
         $userName = Auth::user()->name;
         if ($userName != 'Super Admin'){
             $order->delivery_status = $request->delivery_status;
+            $order->message = $request->message;
             $order->delivery_man = Auth::id();
             $order->save();
 
@@ -115,6 +116,7 @@ class OrderController extends Controller
             return redirect()->route('admin.order.index');
         }
         $order->delivery_status = $request->delivery_status;
+        $order->message = $request->message;
         $order->delivery_man = $request->delivery_man;
         $order->save();
 

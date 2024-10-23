@@ -7,7 +7,6 @@ use App\Models\AppliedCoupon;
 use App\Models\Cart;
 use App\Models\Food;
 use App\Models\Order;
-use App\Models\PromoCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,7 +14,6 @@ class OrderController extends Controller
 {
     public function create(Request $request)
     {
-
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -48,7 +46,6 @@ class OrderController extends Controller
         $promo_code = $request->code ?? null;
         $promo_discount = $request->coupon_amount ?? 0;
 
-
         $billing_details = $request->only(['name', 'address', 'phone', 'email', 'additional_msg']);
 
         Order::create([
@@ -74,7 +71,6 @@ class OrderController extends Controller
 
             if ($productModel) {
                 $productModel->quantity -= $quantityToSubtract;
-
                 $productModel->save();
             }
         }
@@ -87,9 +83,7 @@ class OrderController extends Controller
 
         Cart::where('user_id', Auth::id())->delete();
 
-
         notify()->success('Your order has been placed successfully');
         return redirect()->route('user.dashboard')->with('success', 'Order placed successfully!');
     }
-
 }

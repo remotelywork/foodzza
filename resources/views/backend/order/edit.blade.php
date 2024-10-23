@@ -60,16 +60,29 @@
                                 </div>
                                 @endcan
 
+
+
+
+
+                                <div class="col-xl-5">
+                                    <div class="site-input-groups">
+                                        <label class="box-input-label" for="message">{{ __('Message:') }}</label>
+                                        <input name="message" value="{{ $order->message }}" type="text" class="box-input mb-0">
+                                    </div>
+                                </div>
+
+
+
                                 <div class="col-xl-2">
                                     <button type="submit" class="site-btn-sm primary-btn mt-4">
                                         {{ __('Update') }}
                                     </button>
                                 </div>
-                                <div class="col-xl-2">
-                                    <button type="button" class="site-btn-sm primary-btn mt-4" onclick="printOrder()">
-                                        {{ __('Print') }}
-                                    </button>
-                                </div>
+                                {{--<div class="col-xl-2">--}}
+                                    {{--<button type="button" class="site-btn-sm primary-btn mt-4" onclick="printOrder()">--}}
+                                        {{--{{ __('Print') }}--}}
+                                    {{--</button>--}}
+                                {{--</div>--}}
                             </form>
 
                             <div class="row" id="printableArea">
@@ -82,7 +95,7 @@
                                     <p style="margin-bottom: 0.1rem; font-size: 14px;"> Phone: {{ $biling_details->phone }}</p>
                                     <p style="margin-bottom: 0.1rem; font-size: 14px;">Address: {{ $biling_details->address }}</p>
                                     @if($biling_details->additional_msg)
-                                        <p style="margin-bottom: 0.1rem; font-size: 14px;"> Additional Message: {{ $biling_details->name }}</p>
+                                        <p style="margin-bottom: 0.1rem; font-size: 14px;"> Message From Customer : {{ $biling_details->name }}</p>
                                     @endif
                                 </div>
                                 <div class="col-xl-6" style="text-align: right; margin-bottom: 0%;">

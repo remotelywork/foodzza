@@ -98,19 +98,19 @@ class FoodCategoryController extends Controller
             return redirect()->back();
         }
 
-
         $foodCategory = FoodCategory::find($id);
         $input = $request->all();
         $data = [
             'name' => $input['name'],
-            'icon' => self::imageUploadTrait($input['icon']),
             'is_featured' => $input['is_featured'],
             'status' => $input['status'],
         ];
 
+        if ($request->hasFile('icon')) {
+            $data['icon'] = self::imageUploadTrait($input['icon']);
+        }
 
         $foodCategory->update($data);
-
         notify()->success('Food Category created successfully');
 
         return redirect()->route('admin.food-category.index');

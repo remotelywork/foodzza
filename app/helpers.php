@@ -548,7 +548,6 @@ if (!function_exists('notify')) {
         if (! is_null($message)) {
             return $notify->success($message, $title);
         }
-
         return $notify;
     }
 }

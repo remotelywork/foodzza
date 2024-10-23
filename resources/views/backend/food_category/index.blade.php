@@ -77,7 +77,6 @@
                                                 @method('DELETE')
                                             </form>
                                         </td>
-
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -111,8 +110,8 @@
 
                     // Populate the modal fields with data
                     $('#name').val(data.name);
-                    $('select[name="status"]').val(data.status);
-                    $('select[name="is_featured"]').val(data.is_featured);
+                    $('input[name="status"][value="' + data.status + '"]').prop('checked', true);
+                    $('input[name="is_featured"][value="' + data.is_featured + '"]').prop('checked', true);
 
                     $('label[for=editThumbImage]').addClass('file-ok');
                     $('label[for=editThumbImage]').css('background', 'url(' + data.icon + ')');
@@ -121,22 +120,9 @@
                     $('#editModal').modal('show');
                 });
             });
-
-            // Trigger delete confirmation modal
-            $('body').on('click', '#delete', function (event) {
-                event.preventDefault();
-                var id = $(this).data('id');
-                $('#deleteModal').modal('show');
-
-                // On confirm delete
-                $('#confirmDelete').off('click').on('click', function () {
-                    // Submit the form for deletion
-                    $('#deleteForm' + id).submit();
-                });
-            });
         });
-    </script>
-    <script>
+
+
         $(document).ready(function () {
             "use strict";
 
@@ -161,6 +147,5 @@
             });
         });
     </script>
-
 
 @endsection

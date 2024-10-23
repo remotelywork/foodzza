@@ -19,6 +19,7 @@ class Order extends Model
         'billing_details',
         'delivery_status',
         'delivery_man',
+        'message',
         'total_amount',
         'payment_method',
         'txn_id',
