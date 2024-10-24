@@ -15,88 +15,43 @@ $contactData = $contact ? json_decode($contact->data, true) : null;
 ?>
 @section('page-content')
 
-    <!-- Contact form area start -->
-    <Section class="contact-form-area section-space-top">
+    <!--Main Content Area-->
+    <section class="section-padding">
         <div class="container">
-            <div class="row align-items-center gy-50 justify-content-center">
-                <div class="col-xxl-6 col-xl-6 col-lg-6">
-                    <div class="contact-form-content" data-aos="fade-up" data-aos-duration="1500">
-                        <div class="section-title-wrapper">
-                            <h2 class="section-title mb-30">{{ $contactData['title_small'] }}</h2>
-                            <p class="b1 description">
-                                {{ $contactData['title_big'] }}
-                            </p>
-                        </div>
-                        <div class="contact-info">
-                            <div class="item">
-                                <div class="icon">
-                                    <span><i class="{{ $contactData['contact_one_icon'] }}"></i></span>
-                                </div>
-                                <div class="content">
-                                    <h3 class="title">{{$contactData['contact_one_title']}}</h3>
-                                    <span class="info"><a href="{{ $contactData['contact_one_value'] }}">{{ $contactData['contact_one_value'] }}</a></span>
-                                </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                    <div class="content-center">
+                        <div class="account-form">
+                            <div class="title">
+                                <h3>Message us!</h3>
                             </div>
-                            <div class="item">
-                                <div class="icon">
-                                    <span><i class="{{ $contactData['contact_two_icon'] }}"></i></span>
-                                </div>
-                                <div class="content">
-                                    <h3 class="title">{{ $contactData['contact_two_title'] }}</h3>
-                                    <span class="info"><a href="{{ $contactData['contact_two_value'] }}">{{ $contactData['contact_two_value'] }}</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-6 col-xl-6 col-lg-6">
-                    <div class="contact-form include-bg" data-background="{{ asset($contactData['form_background_img']) }}">
-                        <form action="{{ route('mail-send')}}" method="POST">
-                            @csrf
-                            <div class="contact-input-wrapper">
+                            <form action="#">
                                 <div class="row">
-                                    <div class="col-xxl-6">
-                                        <div class="contact-input-box">
-                                            <div class="contact-input">
-                                                <input name="name" id="name" type="text" placeholder="Name">
-                                            </div>
-                                        </div>
+                                    <div class="col-xl-12">
+                                        <input type="text" placeholder="First Name" required>
                                     </div>
-                                    <div class="col-xxl-6">
-                                        <div class="contact-input-box">
-                                            <div class="contact-input">
-                                                <input name="email" id="email" type="email" placeholder=" Email">
-                                            </div>
-                                        </div>
+                                    <div class="col-xl-12">
+                                        <input type="text" placeholder="Last Name" required>
                                     </div>
-                                    <div class="col-xxl-12">
-                                        <div class="contact-input-box">
-                                            <div class="contact-input">
-                                                <input name="subject" id="subject" type="text" placeholder="Subject">
-                                            </div>
-                                        </div>
+                                    <div class="col-xl-12">
+                                        <input type="email" placeholder="Email" required>
                                     </div>
-                                    <div class="col-xxl-12">
-                                        <div class="contact-input-box">
-                                            <div class="contact-input">
-                                                <textarea name="msg" placeholder="Write a message..."></textarea>
-                                            </div>
-                                        </div>
+                                    <div class="col-xl-12">
+                                        <input type="text" placeholder="Phone number" required>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <textarea name="msg" rows="4" placeholder="Message"></textarea>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <button type="submit" class="bttn-mid btn-fill w-100">Send it</button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="contact-btn">
-                                <button class="site-btn warning-btn btn-xs" type="submit">{{ $contactData['form_button_title'] }}</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </Section>
-    <!-- Contact form area end -->
-
-    <!-- Newsletter section start -->
-    @include('frontend::pages.newsletter')
-    <!-- Newsletter section end -->
+    </section>
+    <!--/Main Content Area-->
 @endsection

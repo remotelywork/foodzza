@@ -14,48 +14,100 @@ $isRtl = isRtl(app()->getLocale());
         'rtl_mode' => $isRtl
     ])>
 
-    <!-- Header area start -->
-    <header>
-        <div class="header-area header-primary header-transparent" id="header-sticky">
-            <div class="header-inner">
-                <div class="header-logo">
-                    <a href="{{route('home')}}"><img src="{{ asset(setting('site_logo','global')) }}" alt="Logo"></a>
-                </div>
-                <div class="header-right style-one">
-                    <div class="auth-header-action">
-                        <div class="header-lang-item header-lang">
-                            <span class="header-lang-toggle" id="header-lang-toggle"><i class="fa-regular fa-globe"></i> <span class="lang-text">English</span></span>
-                            <ul id="language-list" class="hidden">
-                                @foreach(\App\Models\Language::where('status',true)->get() as $lang)
-                                    <li><a href="#" value="{{ route('language-update',['name'=> $lang->locale]) }}" @selected( app()->getLocale() == $lang->locale )>{{$lang->name}} <span class="icon"></span></a></li>
-                                @endforeach
+    <!--Header Area-->
+    <header class="header-area">
+        <nav class="navbar navbar-expand-lg main-menu">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" href="index.html"><img src="{{ asset('frontend/default/images/logo.png') }}" class="d-inline-block align-top" alt=""></a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="menu-toggle"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav m-auto">
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle" href="{{ route('home') }}" role="button"  aria-expanded="false">Home</a>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-expanded="false">Shop</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="shop.html">Shop page</a></li>
+                                <li><a class="dropdown-item" href="product-details.html">Product Details</a></li>
+                                <li><a class="dropdown-item" href="cart.html">Cart page</a></li>
+                                <li><a class="dropdown-item" href="checkout.html">Checkout page</a></li>
+                                <li><a class="dropdown-item" href="login.html">Login</a></li>
+                                <li><a class="dropdown-item" href="register.html">Register</a></li>
                             </ul>
-                        </div>
-                        <div class="color-switcher">
-                         <span class="light-icon">
-                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                               <path
-                                       d="M9 1.5C8.00544 2.49456 7.4467 3.84348 7.4467 5.25C7.4467 6.65652 8.00544 8.00544 9 9C9.99457 9.99456 11.3435 10.5533 12.75 10.5533C14.1565 10.5533 15.5054 9.99456 16.5 9C16.5 10.4834 16.0601 11.9334 15.236 13.1668C14.4119 14.4001 13.2406 15.3614 11.8701 15.9291C10.4997 16.4968 8.99168 16.6453 7.53683 16.3559C6.08197 16.0665 4.7456 15.3522 3.6967 14.3033C2.64781 13.2544 1.9335 11.918 1.64411 10.4632C1.35472 9.00832 1.50325 7.50032 2.07091 6.12987C2.63856 4.75943 3.59986 3.58809 4.83323 2.76398C6.0666 1.93987 7.51664 1.5 9 1.5Z"
-                                       stroke="#5C5958" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                         </span>
-                            <span class="dark-icon">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                               <path
-                                       d="M10.0007 15.4168C12.9922 15.4168 15.4173 12.9917 15.4173 10.0002C15.4173 7.00862 12.9922 4.5835 10.0007 4.5835C7.00911 4.5835 4.58398 7.00862 4.58398 10.0002C4.58398 12.9917 7.00911 15.4168 10.0007 15.4168Z"
-                                       stroke="#B4B5BA" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                               <path
-                                       d="M15.9493 15.9498L15.841 15.8415M15.841 4.15817L15.9493 4.04984L15.841 4.15817ZM4.04935 15.9498L4.15768 15.8415L4.04935 15.9498ZM9.99935 1.73317V1.6665V1.73317ZM9.99935 18.3332V18.2665V18.3332ZM1.73268 9.99984H1.66602H1.73268ZM18.3327 9.99984H18.266H18.3327ZM4.15768 4.15817L4.04935 4.04984L4.15768 4.15817Z"
-                                       stroke="#B4B5BA" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                         </span>
-                        </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-expanded="false">Menu</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="category.html">Breakfast</a></li>
+                                <li><a class="dropdown-item" href="category.html">Lunch Items</a></li>
+                                <li><a class="dropdown-item" href="category.html">Dinner Items</a></li>
+                                <li><a class="dropdown-item" href="category.html">Snacks</a></li>
+                                <li><a class="dropdown-item" href="category.html">Coffee</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" role="button" data-toggle="dropdown" aria-expanded="false">Pages</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="search.html">Search page</a></li>
+                                <li><a class="dropdown-item" href="restaurant-resgister.html">Restaurant Register</a></li>
+                                <li><a class="dropdown-item" href="restaurant-profile.html">Restaurant Profile</a></li>
+                                <li><a class="dropdown-item" href="forgot-password.html">Forgot Password</a></li>
+                                <li><a class="dropdown-item" href="user-dashboard.html">User Dashboard</a></li>
+                                <li><a class="dropdown-item" href="user-orders.html">User Orders</a></li>
+                                <li><a class="dropdown-item" href="settings.html">User Settings</a></li>
+                                <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+                                <li><a class="dropdown-item" href="how-it-works.html">How it works</a></li>
+                                <li><a class="dropdown-item" href="faq.html">Faq</a></li>
+                                <li><a class="dropdown-item" href="privacy.html">Privacy Policy</a></li>
+                                <li><a class="dropdown-item" href="terms.html">Terms & Service</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="blog.html" role="button" data-toggle="dropdown" aria-expanded="false">Blog</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="blog.html">All Blog</a></li>
+                                <li><a class="dropdown-item" href="blog-details.html">Blog Details</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="header-btn justify-content-end">
+                        @if(\Illuminate\Support\Facades\Auth::check())
+                            <a href="{{ route('user.dashboard') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Dashboard</a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Login</a>
+                        @endif
+
+                        <a href="{{ route('user.carts') }}" class="bttn-round btn-fill-2 ml-2"><i class="fas fa-shopping-cart"></i><span>{{ cartCount() }}</span></a>
                     </div>
                 </div>
             </div>
-        </div>
+            @if(session('success'))
+                <div class="alert alert-success" id="success-alert">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if(session('failed'))
+                <div class="alert alert-danger" id="failed-alert">
+                    {{session('failed')}}
+                </div>
+            @endif
+        </nav>
     </header>
-    <!-- Header area end -->
+    <!--/Header Area-->
 
     <!--Notification-->
     @include('frontend::include.__notify')

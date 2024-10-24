@@ -1,21 +1,69 @@
-<!-- Newsletter section start -->
-<section class="newsletter-section section-space">
-    <div class="container">
-        <div class="newsletter-main include-bg" data-background="{{ asset($data['img']) }}">
-            <div class="newsletter-grid">
-                <div class="content">
-                    <p class="description">{{ $data['title_big'] }}</p>
-                    <h3 class="title">{{ $data['title_small'] }}</h3>
+<!--newslatter and Instagram feed-->
+<div class="section-padding-2">
+    <div class="container-fluid">
+        <div class="row justify-content-center mb-30">
+            <div class="col-xl-12 centered">
+                <div class="section-title">
+                    <h4>Follow us <a href="" class="cl-primary">@Instagram</a></h4>
                 </div>
-                <div class="newsletter-input-form">
-                    <form action="{{ route('subscriber') }}" method="POST">
-                        @csrf
-                        <input type="text" name="email" placeholder="{{__('Enter your email')}}">
-                        <button class="site-btn primary-btn" type="submit">{{__('Submit')}}</button>
+            </div>
+            <div class="col-xl-12">
+                <div class="photo-gallery owl-carousel">
+                    <div class="single-insta">
+                        <a href="">
+                            <img src="assets/images/insta/1.jpg" alt="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="single-insta">
+                        <a href="">
+                            <img src="assets/images/insta/2.jpg" alt="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="single-insta">
+                        <a href="">
+                            <img src="assets/images/insta/3.jpg" alt="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="single-insta">
+                        <a href="">
+                            <img src="assets/images/insta/4.jpg" alt="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="single-insta">
+                        <a href="">
+                            <img src="assets/images/insta/5.jpg" alt="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="single-insta">
+                        <a href="">
+                            <img src="assets/images/insta/6.jpg" alt="">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-5 col-sm-12 centered">
+                <div class="newslatter">
+                    <form action="#">
+                        <input type="email" placeholder="Email Address" required>
+                        <button type="submit">Subscribe</button>
                     </form>
+                    <div class="social">
+                        <a href=""><i class="fab fa-facebook-square"></i></a>
+                        <a href=""><i class="fab fa-instagram-square"></i></a>
+                        <a href=""><i class="fab fa-twitter-square"></i></a>
+                        <a href=""><i class="fab fa-pinterest-square"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!-- Newsletter section end -->
+</div>
+<!--/newslatter and Instagram feed-->

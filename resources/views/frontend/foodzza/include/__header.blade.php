@@ -79,10 +79,6 @@
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
-                        {{--<a href="#" class="bttn-small btn-fill"--}}
-                           {{--onclick="event.preventDefault(); document.getElementById('logout-form').submit();">--}}
-                            {{--<i class="fas fa-user"></i> {{ __('Logout') }}--}}
-                        {{--</a>--}}
                 @else
                         <a href="{{ route('login') }}" class="bttn-small btn-fill"><i class="fas fa-user"></i> Login</a>
                 @endif
@@ -102,4 +98,5 @@
             </div>
         @endif
     </nav>
-</header><!--/Header Area-->
+</header>
+<!--/Header Area-->

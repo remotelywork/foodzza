@@ -28,7 +28,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\GoogleLoginController;
 
-//Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::post('subscriber', [HomeController::class, 'subscribeNow'])->name('subscriber');
 
 //Dynamic Page
@@ -207,7 +207,7 @@ Route::get('site-cron', [CronJobController::class, 'runCronJobs'])->name('cron.j
 
 
 
-Route::get('/',[HomeController::class,'FoodzzaHome'])->name('home');
+//Route::get('/',[HomeController::class,'FoodzzaHome'])->name('home');
 Route::get('product-details/{id}',[FoodController::class,'productDetails'])->name('food.details');
 
 Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');

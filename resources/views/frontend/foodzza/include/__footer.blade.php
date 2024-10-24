@@ -75,4 +75,5 @@
             </div>
         </div>
     </div>
-</footer><!--/Footer Area-->
+</footer>
+<!--/Footer Area-->

@@ -81,7 +81,8 @@
             </div>
         </div>
     </section>
-</div><!-- /Banner Area-->
+</div>
+<!-- /Banner Area-->
 
 
 <!--About Area-->
@@ -106,7 +107,8 @@
             </div>
         </div>
     </div>
-</section><!--/About Area-->
+</section>
+<!--/About Area-->
 
 <!--pack Area-->
 <section class="pack-section">

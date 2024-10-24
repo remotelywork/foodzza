@@ -1,52 +1,82 @@
-<!-- Body main wrapper start -->
-<main>
-
-    <!-- Banner section start -->
-    <section class="banner-area banner-style-one p-relative fix">
+<!-- Banner Area-->
+<div class="hero owl-carousel leaf-left flower">
+    <section class="banner-slider-area section-padding yellow-bg">
         <div class="container">
-            <div class="row gy-30 align-items-center">
-                <div class="col-xxl-7 col-xl-7 col-lg-7 col-md-8">
-                    <div class="banner-content p-relative">
-
-                        <h1 class="banner-title">{{ $data['hero_title'] }}
-                        </h1>
-
-                        <p class="description">{{ $data['sub_title'] }}</p>
-
-                        <div class="btn-wrap">
-                            <a class="site-btn warning-btn btn-xs" href="{{ $data['hero_button1_url'] }}">{{ $data['hero_button1_level'] }} <i
-                                        class="{{ $data['hero_button2_icon'] }}"></i></a>
+            <div class="row">
+                <div class="col-xl-7 col-md-12">
+                    <div class="banner">
+                        <h2>Best Burger in Town</h2>
+                        <p>Poke is diced raw fish served either as an appetizer or as a <br> main course and is one of the main dishes of Native <br> Hawaiian cuisine. Traditional forms are aku and heʻe.</p>
+                        <a href="#" class="bttn-mid btn-fill cart-button"><i class="fas fa-shopping-cart"></i>Order now</a>
+                        <div class="social">
+                            <a href=""><i class="fab fa-facebook-square"></i></a>
+                            <a href=""><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="pagename">
+                            <span class="number">01</span>
+                            <span class="name">Burger</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-4">
-                    <div class="banner-thumb-wrapper">
-                        <span class="round-one"></span>
-                        <span class="round-two"></span>
-                        <span class="round-three"></span>
-                        <div class="banner-thumb">
-                            <img src="{{ asset($data['hero_right_img']) }}" alt="banner thumb">
-                        </div>
+                <div class="col-xl-5 col-md-12">
+                    <div class="banner">
+                        <img src="{{ asset('frontend/default/images/food.png') }}" alt="">
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="banner-shapes d-none d-md-block">
-            <div class="shape-one">
-                <img src="assets/frontend/default/images/shapes/banner-one/shape-01.svg" alt="banner-shape">
-            </div>
-            <div class="shape-two">
-                <img src="assets/frontend/default/images/shapes/banner-one/shape-02.svg" alt="banner-shape">
-            </div>
-            <div class="shape-three">
-                <img src="assets/frontend/default/images/shapes/banner-one/shape-03.svg" alt="banner-shape">
-            </div>
-            <div class="shape-four">
-                <img src="assets/frontend/default/images/shapes/banner-one/shape-04.svg" alt="banner-shape">
-            </div>
-            <div class="shape-five">
-                <img src="assets/frontend/default/images/shapes/banner-one/shape-05.svg" alt="banner-shape">
             </div>
         </div>
     </section>
-    <!-- Banner section end -->
+    <section class="banner-slider-area section-padding yellow-bg-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-7 col-md-12">
+                    <div class="banner">
+                        <h2>Top Class Pizzaburgi</h2>
+                        <p>Poke is diced raw fish served either as an appetizer or as a <br> main course and is one of the main dishes of Native <br> Hawaiian cuisine. Traditional forms are aku and heʻe.</p>
+                        <a href="" class="bttn-mid btn-fill"><i class="fas fa-shopping-cart"></i>Order now</a>
+                        <div class="social">
+                            <a href=""><i class="fab fa-facebook-square"></i></a>
+                            <a href=""><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="pagename">
+                            <span class="number">02</span>
+                            <span class="name">Pizza</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-md-12">
+                    <div class="banner">
+                        <img src="assets/images/food-2.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="banner-slider-area section-padding blue-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-7 col-md-12">
+                    <div class="banner">
+                        <h2>Hot Pasta you Love!</h2>
+                        <p>Poke is diced raw fish served either as an appetizer or as a <br> main course and is one of the main dishes of Native <br> Hawaiian cuisine. Traditional forms are aku and heʻe.</p>
+                        <a href="" class="bttn-mid btn-fill"><i class="fas fa-shopping-cart"></i>Order now</a>
+                        <div class="social">
+                            <a href=""><i class="fab fa-facebook-square"></i></a>
+                            <a href=""><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="pagename">
+                            <span class="number">03</span>
+                            <span class="name">Pasta</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-md-12">
+                    <div class="banner">
+                        <img src="assets/images/food-3.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /Banner Area-->

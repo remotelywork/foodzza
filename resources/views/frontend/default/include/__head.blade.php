@@ -1,19 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{{ setting('site_title', 'global') }} - @yield('title')</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+    <link rel="shortcut icon" href="{{ asset('frontend/default/images/favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ asset(setting('site_favicon','global')) }}" type="image/x-icon"/>
 
-    <!-- CSS here -->
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/fontawesome-pro.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/odometer-default.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/swiper.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/nice-select.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/select2.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/iconsax.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/spacing.css')}}">
-    <link rel="stylesheet" href="{{ asset('frontend/default/css/styles.css')}}">
+    <title>{{ setting('site_title', 'global') }} - @yield('title')</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ asset('frontend/default/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('frontend/default/css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/default/css/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/default/css/jquery-ui.css') }}" rel="stylesheet">
+
+
+    <link href="{{ asset('frontend/default/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('frontend/default/css/owl.carousel.min.css') }}" rel="stylesheet">
+
+
+    <!-- Main css -->
+    <link href="{{ asset('frontend/default/css/main.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
