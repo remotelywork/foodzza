@@ -1,17 +1,17 @@
 <div
-        class="modal fade"
-        id="editModal"
-        tabindex="-1"
-        aria-labelledby="editCategoryModalLabel"
-        aria-hidden="true">
+    class="modal fade"
+    id="editModal"
+    tabindex="-1"
+    aria-labelledby="editCategoryModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content site-table-modal">
             <div class="modal-body popup-body">
                 <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
                 <div class="popup-body-text">
                     <h3 class="title mb-4">{{ __('Edit Category') }}</h3>
                     <form action="" id="editForm" method="post" enctype="multipart/form-data">
@@ -30,11 +30,11 @@
                         <div class="site-input-groups">
                             <label for="" class="box-input-label">{{ __('Category Name') }}</label>
                             <input
-                                    type="text"
-                                    class="box-input mb-0"
-                                    required=""
-                                    name="name"
-                                    id="name" />
+                                type="text"
+                                class="box-input mb-0"
+                                required=""
+                                name="name"
+                                id="name" />
                         </div>
                         <div class="site-input-groups">
                             <label class="box-input-label" for="">{{ __('Is Featured:') }}</label>
@@ -62,10 +62,10 @@
                                 {{ __('Update Category') }}
                             </button>
                             <a
-                                    href="#"
-                                    class="site-btn-sm red-btn"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close">
+                                href="#"
+                                class="site-btn-sm red-btn"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
                                 <i icon-name="x"></i>
                                 {{ __('Cancel') }}
                             </a>
@@ -76,4 +76,3 @@
         </div>
     </div>
 </div>
-

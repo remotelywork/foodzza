@@ -48,7 +48,7 @@
                                 <div class="col-xl-5">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="delivery_boy">{{ __('Assign Delivery Man:') }}</label>
-                                        <select name="delivery_man" class="form-select" required>
+                                        <select name="delivery_man" class="form-select">
                                             <option value=""  selected>{{ __('Select delivery man') }}</option>
                                             @foreach($delivery_mans as $delivery_man)
                                                 <option value="{{ $delivery_man->id }}" {{ $delivery_man->id == $order->delivery_man ? 'selected' : '' }}>
@@ -60,18 +60,12 @@
                                 </div>
                                 @endcan
 
-
-
-
-
                                 <div class="col-xl-5">
                                     <div class="site-input-groups">
                                         <label class="box-input-label" for="message">{{ __('Message:') }}</label>
                                         <input name="message" value="{{ $order->message }}" type="text" class="box-input mb-0">
                                     </div>
                                 </div>
-
-
 
                                 <div class="col-xl-2">
                                     <button type="submit" class="site-btn-sm primary-btn mt-4">

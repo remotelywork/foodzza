@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Food;
 use App\Models\FoodCategory;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -38,7 +40,6 @@ class OrderController extends Controller
 
             return view('backend.order.index',compact('orders','foodCategories','title'));
         }
-
 
         $orders = Order::query()
             ->when($search, function ($query, $search) {
@@ -100,28 +101,47 @@ class OrderController extends Controller
 
         $order = Order::find($id);
 
+        // Check if the order exists
         if (!$order) {
             notify()->error('Order not found');
             return redirect()->back();
         }
 
-        $userName = Auth::user()->name;
-        if ($userName != 'Super Admin'){
-            $order->delivery_status = $request->delivery_status;
-            $order->message = $request->message;
-            $order->delivery_man = Auth::id();
-            $order->save();
-
-            notify()->success('Order updated successfully');
-            return redirect()->route('admin.order.index');
+        // If the delivery status is 'cancel', restock the food items
+        if ($request->delivery_status == 'cancel') {
+            $this->restockItems($order->product_details);
         }
-        $order->delivery_status = $request->delivery_status;
+
+        // Common updates for both Super Admin and other users
         $order->message = $request->message;
-        $order->delivery_man = $request->delivery_man;
+        $order->delivery_status = $request->delivery_status;
+        $userName = Auth::user()->name;
+
+        // If user is not 'Super Admin', assign the delivery man as the authenticated user
+        if ($userName != 'Super Admin') {
+            $order->delivery_man = Auth::id();
+        } else {
+            // For Super Admin, use the provided delivery man
+            $order->delivery_man = $request->filled('delivery_man') ? $request->delivery_man : null;
+        }
+
         $order->save();
 
         notify()->success('Order updated successfully');
         return redirect()->route('admin.order.index');
+    }
+
+    private function restockItems($items)
+    {
+        $items = json_decode($items);
+
+        foreach ($items as $item) {
+            $food = Food::find($item->product_id);
+            if ($food) {
+                $food->quantity += $item->quantity;
+                $food->save();
+            }
+        }
     }
 
 

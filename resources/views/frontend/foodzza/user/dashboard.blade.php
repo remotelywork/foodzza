@@ -20,7 +20,15 @@
             <div class="col-xl-3 col-sm-6">
                 <div class="back-sidemenu">
                     <ul>
-                        <li><a href="{{ route('user.dashboard') }}" >{{__('My Orders')}}</a></li>
+                        <li><a href="{{ route('user.dashboard') }}">{{ __('My Orders') }}</a></li>
+                        <li>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                        </li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
                     </ul>
                 </div>
             </div>
@@ -36,6 +44,7 @@
                             <th scope="col">Price</th>
                             <th scope="col">Status</th>
                             <th scope="col">Delivery man</th>
+                            <th scope="col">Order Date</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -80,7 +89,7 @@
                                     <td>
                                         @switch($order->delivery_status)
                                             @case('pending')
-                                            <div class="badge bg-warning text-dark">{{ __('Pending') }}</div>
+                                            <div class="badge bg-warning text-white">{{ __('Pending') }}</div>
                                             @break
 
                                             @case('processing')
@@ -88,11 +97,15 @@
                                             @break
 
                                             @case('on_delivery')
-                                            <div class="badge bg-info text-dark">{{ __('On Delivery') }}</div>
+                                            <div class="badge bg-info text-white">{{ __('On Delivery') }}</div>
                                             @break
 
                                             @case('delivered')
-                                            <div class="badge bg-success">{{ __('Delivered') }}</div>
+                                            <div class="badge bg-success text-white">{{ __('Delivered') }}</div>
+                                            @break
+
+                                            @case('cancel')
+                                            <div class="badge bg-danger text-white">{{ __('Canceled') }}</div>
                                             @break
 
                                             @default
@@ -110,6 +123,7 @@
                                         {{ $delivery_man->name }}
                                             @endif
                                     </td>
+                                    <td>{{ \Illuminate\Support\Carbon::make($order->created_at)->format('d-m-y') }}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -117,7 +131,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
 </section>

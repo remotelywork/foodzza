@@ -69,6 +69,8 @@
                                             <div class="site-badge pending">{{ __('On Delivery') }}</div>
                                         @elseif($order->delivery_status == 'delivered')
                                             <div class="site-badge success">{{ __('Delivered') }}</div>
+                                        @elseif($order->delivery_status == 'cancel')
+                                            <div class="site-badge pending">{{ __('Canceled') }}</div>
                                         @endif
                                     </td>
                                     <td>{{ $order->payment_method }}</td>
